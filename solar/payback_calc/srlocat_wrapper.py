@@ -4,7 +4,7 @@ from subprocess import Popen,PIPE
 
 def parse_line(srline):
     splitline = srline.split()
-    return (float(splitline[-1]), float(splitline[-2]))
+    return (float(splitline[-2]), float(splitline[-1]))
 
 def srlocat(lat, long, year, month):
     """
