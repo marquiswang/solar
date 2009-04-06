@@ -2,6 +2,9 @@ from django.template import Context, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from formdef import SolarForm
+from srlocat_wrapper import srlocat
+
+import math
 
 def index(request):
     """
@@ -23,7 +26,30 @@ def calc_payback(request):
     """
     if request.method != 'POST': # If the form has been submitted...
         return render_to_response('error.html', {})
-        form = SolarForm(request.POST) # A form bound to the POST data
-        if form.is_valid(): # All validation rules pass
-            
-    return render_to_response('response.html', {})
+
+    form = SolarForm(request.POST) # A form bound to the POST data
+    
+    monthly_energy_output = []
+   # Doesn't work, need to figure out how to get data from form. 
+   # for m in range(0, 12):
+   #     month = m+1
+   #     insolation = srlocat(form.data['latitude'], form.data['longitude'], 2009, month)
+
+   #     panel_size = float(form.data['panel_size'])
+   #     months_energy_output = 0
+   #     for day in insolation:
+   #         days_power_output = panel_size 
+   #         days_energy_output = days_power_output*60*60*24
+   #         months_energy_output += days_energy_output
+   #     monthly_energy_output.append(months_energy_output)
+
+   # years_energy_output = 0
+   # for month in monthly_energy_output:
+   #     years_energy_output += month
+
+   # form.data["monthly_energy_output"] = monthly_energy_output
+   # form.data["years_energy_output"] = years_energy_output
+    if form.is_valid(): # All validation rules pass
+        return render_to_response('response.html', form.data)
+
+
