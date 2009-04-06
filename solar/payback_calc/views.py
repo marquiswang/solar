@@ -1,6 +1,7 @@
 from django.template import Context, loader
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
+from formdef import SolarForm
 
 def index(request):
     """
@@ -8,7 +9,9 @@ def index(request):
         payback calculator should load.  templates/index.html should have
         the form.
     """
-    return render_to_response('index.html', {})
+    form = SolarForm() # An unbound form
+    return render_to_response('index.html', {'form': form})
+
 
 
 def calc_payback(request):
@@ -18,4 +21,9 @@ def calc_payback(request):
         to the relevant logic and should assemble the response into a response
         using the response.html template at templates/response.html.
     """
+    if request.method != 'POST': # If the form has been submitted...
+        return render_to_response('error.html', {})
+        form = SolarForm(request.POST) # A form bound to the POST data
+        if form.is_valid(): # All validation rules pass
+            
     return render_to_response('response.html', {})
