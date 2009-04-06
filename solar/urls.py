@@ -6,7 +6,7 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
     # Example:
-    (r'^index', 'solar.payback_calc.views.index'),
+    (r'^$', 'solar.payback_calc.views.index'),
     (r'^calc_payback/', 'solar.payback_calc.views.calc_payback')
 
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
