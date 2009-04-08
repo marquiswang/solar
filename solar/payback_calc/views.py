@@ -28,7 +28,8 @@ def calc_payback(request):
 	# Bind form to the POST data
     form = SolarForm(request.POST)
 
-    if (not form.is_valid()): # All validation rules pass
+    # All validation rules pass
+    if not form.is_valid():
         return render_to_response('error.html', {})
 
     form.clean()
@@ -56,9 +57,6 @@ def calc_payback(request):
     output_data["monthly_energy_output"] = monthly_energy_output
     output_data["years_energy_output"] = years_energy_output
     
-     # All validation rules pass
-    if form.is_valid():
-        return render_to_response('response.html', output_data)
     return render_to_response('response.html', output_data)
 
     
