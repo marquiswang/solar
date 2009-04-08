@@ -1,5 +1,6 @@
 import MySQLdb
 import urllib
+import string
 
 def hostip(ip_str):
     """
@@ -23,6 +24,9 @@ def hostip(ip_str):
     name, state, lat, lng = cursor.fetchone()
     city = ",".join(urllib.unquote(name).split(',')[:-1])
     state = urllib.unquote(name).split(', ')[-1].strip()
-    return (city, state, lat, lng)
+    
+    cursor.execute("SELECT zip_code FROM zip_code WHERE city = '"+string.upper(city)+"' AND state_prefix = '"+state+"'");
+    zip_code = str(cursor.fetchone()[0]).rjust(5, "0")
+    return (city, state, zip_code, lat, lng)
     
     

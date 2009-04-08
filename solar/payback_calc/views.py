@@ -15,9 +15,9 @@ def index(request):
     """
     system_form = SystemForm()
     
-    city, state, lat, lng = hostip(request.META.get('REMOTE_ADDR'))
+    city, state, zip_code, lat, lng = hostip(request.META.get('REMOTE_ADDR'))
     location_form = LocationForm(initial = \
-        {'city' : city, 'state' : state, 'latitude' : lat, 'longitude' : lng})
+        {'city' : city, 'state' : state, 'zip_code' : zip_code, 'latitude' : lat, 'longitude' : lng})
     return render_to_response('index.html', {'system_form': system_form, 'location_form': location_form})
 
 
