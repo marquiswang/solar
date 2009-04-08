@@ -1,17 +1,8 @@
-STUB FOR RESPONSE TEMPLATE
+{% extends "base.html" %}
 
-<!--
-<p>
-Number of panels: {{number_of_panels}} <br />
-Panel Size: {{panel_size}} cm<sup>2</sup> <br />
-Installation angle: {{installation_angle}} degrees<br />
-Price per panel: ${{price_per_panel}}<br />
-Panel rating: {{panel_rating}} KW/m<sup>2</sup><br />
-Latitude: {{latitude}}<br />
-Longitude: {{longitude}}<br />
-</p>
--->
+{% block title %}Solar: Your answer!{% endblock %}
 
+{% block content %}
 <p>
 	Peak power output: {{peak_power_output}}W <br />
 	Installation price: ${{installation_price}} <br />
@@ -28,6 +19,7 @@ energy output: <br />
 		</tr>
 	{% endfor %}	
 </table>
+{% endblock %}
 			
 				
 			
