@@ -4,6 +4,8 @@ from django.shortcuts import render_to_response
 from formdef import SolarForm
 from solar.payback_calc.srlocat_wrapper import srlocat
 
+import datetime
+
 def index(request):
     """
         This is a stub.  When this function is called, the main page of the
@@ -34,28 +36,31 @@ def calc_payback(request):
 
     form.clean()
     
+    one_day = datetime.timedelta(days=1)
+    today = datetime.date.today()
+    expected_lifetime = datetime.timedelta(weeks=1)
+    end_of_life = today + expected_lifetime
+    
     # Calculate upcoming energy output
-    monthly_energy_output = []
+    energy_output = []
+    
+    day = today
+    while day < end_of_life:
+        insolation = srlocat(form.cleaned_data['latitude'], \
+                             form.cleaned_data['longitude'], day.year, day.month, day.day)
+        
+        days_power_output = form.cleaned_data['peak_power_output'] * insolation[0] / 1000.0
+        days_energy_output = days_power_output * 24 / 1000
+        
+        days_info = {}
+        days_info['day'] = day.strftime("%m/%d/%y")
+        days_info['energy_output'] = days_energy_output
+        
+        energy_output.append( days_info ) 
+        day += one_day
 
-    for m in range(0, 12):
-        month = m+1
-        insolation = srlocat(form.data['latitude'], \
-                             form.data['longitude'], 2009, month)
-
-        months_energy_output = 0
-        for day in insolation:
-            days_power_output = form.data['peak_power_output']*day[0]/1000  
-            days_energy_output = days_power_output*24
-            months_energy_output += days_energy_output
-        monthly_energy_output.append(months_energy_output)
-
-    years_energy_output = 0
-    for month in monthly_energy_output:
-        years_energy_output += month
-
-    output_data = form.data.copy()
-    output_data["monthly_energy_output"] = monthly_energy_output
-    output_data["years_energy_output"] = years_energy_output
+    output_data = form.cleaned_data.copy()
+    output_data["energy_output"] = energy_output
     
     return render_to_response('response.html', output_data)
 

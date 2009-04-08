@@ -19,5 +19,16 @@ Longitude: {{longitude}}<br />
 	Longitude: {{longitude}}<br />
 </p>
 
-Year's energy output: {{years_energy_output}} Kwh
+energy output: <br />
+<table>
+	{% for day in energy_output %}
+		<tr>
+			<td> {{day.day}} </td>
+			<td> {{day.energy_output}} KWh </td>
+		</tr>
+	{% endfor %}	
+</table>
+			
+				
+			
 
