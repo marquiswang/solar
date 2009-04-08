@@ -11,8 +11,21 @@
 
 	<h3>Configure Location</h3>
 	<table id="loc_config">
-		<tr colspan="2">We need to know where are you to provide accurate estimates.</th>
-		{{ location_form.as_table}}
+		<tr> <td colspan="3">We need to know where are you to provide accurate estimates.</td> </tr>
+		<tr>
+			<th><input type="radio" name="location" value="city_state"></th>
+			<td>City/State: {{ location_form.city}} {{ location_form.state}}</td>
+		</tr>
+		<tr>
+			<th><input type="radio" name="location" value="zip_code"></th>
+			<td>{{location_form.zip_code.label_tag}}: {{ location_form.zip_code}}</td>
+		</tr>
+		<tr>
+			<th><input type="radio" name="location" value="lat_long"></th>
+			<td>Coordinates: <span class="lat_long">Lat:</span> {{location_form.latitude}} <span class="lat_long">Long:</span> {{ location_form.longitude}}</td>
+		</tr>
+		
+		<!-- {{ location_form.as_table}} -->
 	</table>
 
 	<input type="submit" value="Submit" />
