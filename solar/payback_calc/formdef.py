@@ -13,7 +13,8 @@ class LocationForm(forms.Form):
     city = forms.CharField(required=False)
     state = forms.ChoiceField(required=False)
     state.choices =  \
-        [('AL','AL'),
+        [('',''),
+        ('AL','AL'),
         ('AK','AK'),
         ('AZ','AZ'),
         ('AR','AR'),

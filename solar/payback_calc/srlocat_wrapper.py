@@ -18,7 +18,11 @@ def srlocat(lat, long, year, month, day = 0):
             (daily average sunlight, sunlight weighted average of zenith angle)
     """
     if day != 0:
-        return srlocat(lat, long, year, month)[day-1]
+        month_data = srlocat(lat, long, year, month)
+        if day <= len(month_data):
+            return month_data[day-1]
+        else:
+            return (0, 0)
     else:
         command = ["payback_calc/srlocat"]
         print os.getcwd()+command[0]

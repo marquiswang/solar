@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from formdef import *
 from solar.payback_calc.srlocat_wrapper import srlocat
+from solar.payback_calc.hostip import hostip
 
 import datetime
 
@@ -13,7 +14,10 @@ def index(request):
         the form.
     """
     system_form = SystemForm()
-    location_form = LocationForm()
+    
+    city, state, lat, lng = hostip(request.META.get('REMOTE_ADDR'))
+    location_form = LocationForm(initial = \
+        {'city' : city, 'state' : state, 'latitude' : lat, 'longitude' : lng})
     return render_to_response('index.html', {'system_form': system_form, 'location_form': location_form})
 
 
@@ -38,7 +42,7 @@ def calc_payback(request):
     
     one_day = datetime.timedelta(days=1)
     today = datetime.date.today()
-    expected_lifetime = datetime.timedelta(weeks=1)
+    expected_lifetime = datetime.timedelta(weeks=52)
     end_of_life = today + expected_lifetime
     
     # Calculate upcoming energy output

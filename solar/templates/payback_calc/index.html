@@ -18,16 +18,30 @@
 		</tr>
 		<tr>
 			<th><input type="radio" name="location" value="zip_code"></th>
-			<td>{{location_form.zip_code.label_tag}}: {{ location_form.zip_code}}</td>
+			<td>ZIP: {{ location_form.zip_code}}</td>
 		</tr>
 		<tr>
 			<th><input type="radio" name="location" value="lat_long"></th>
 			<td>Coordinates: <span class="lat_long">Lat:</span> {{location_form.latitude}} <span class="lat_long">Long:</span> {{ location_form.longitude}}</td>
 		</tr>
-		
-		<!-- {{ location_form.as_table}} -->
 	</table>
 
-	<input type="submit" value="Submit" />
+	<h3>Configure Costs and Pricing</h3>
+	<table id="cost_config">
+		<tr> <td colspan="3"> We can either use averages for power costs and usage in your area, or your own power bill data. </td> </tr>
+		<tr>
+			<th><input type="radio" name="costs" value="averages"></th>
+			<td>Use location averages for pricing (less accurate)</td>
+		</tr>
+		<tr>
+			<th><input type="radio" name="costs" value="specified"></th>
+			<td>Input your own power bill data for the last year</td>
+		</tr>
+	</table>
+	
+	<h3> Finalize </h3>
+	<table id="finalize">
+		<tr><td><input type="submit" value="Submit" /></td><td><input type="checkbox" name="save"> Save my data for when I come back</td></tr>
+	</table>
 </form>
 {% endblock %}
