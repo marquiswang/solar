@@ -1,7 +1,7 @@
 from django.template import Context, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
-from formdef import SolarForm
+from formdef import *
 from solar.payback_calc.srlocat_wrapper import srlocat
 
 import datetime
@@ -12,8 +12,9 @@ def index(request):
         payback calculator should load.  templates/index.html should have
         the form.
     """
-    form = SolarForm() # An unbound form
-    return render_to_response('index.html', {'form': form})
+    system_form = SystemForm()
+    location_form = LocationForm()
+    return render_to_response('index.html', {'system_form': system_form, 'location_form': location_form})
 
 
 def calc_payback(request):
@@ -27,14 +28,13 @@ def calc_payback(request):
     if request.method != 'POST':
         return render_to_response('error.html', {})
 
-	# Bind form to the POST data
-    form = SolarForm(request.POST)
-
+	# Bind forms to the POST data
+    system_form = SystemForm(request.POST)
+    location_form = LocationForm(request.POST)
+    
     # All validation rules pass
-    if not form.is_valid():
+    if not system_form.is_valid() or not location_form.is_valid():
         return render_to_response('error.html', {})
-
-    form.clean()
     
     one_day = datetime.timedelta(days=1)
     today = datetime.date.today()
@@ -46,10 +46,10 @@ def calc_payback(request):
     
     day = today
     while day < end_of_life:
-        insolation = srlocat(form.cleaned_data['latitude'], \
-                             form.cleaned_data['longitude'], day.year, day.month, day.day)
+        insolation = srlocat(location_form.cleaned_data['latitude'], \
+                             location_form.cleaned_data['longitude'], day.year, day.month, day.day)
         
-        days_power_output = form.cleaned_data['peak_power_output'] * insolation[0] / 1000.0
+        days_power_output = system_form.cleaned_data['peak_power_output'] * insolation[0] / 1000.0
         days_energy_output = days_power_output * 24 / 1000
         
         days_info = {}
@@ -59,7 +59,9 @@ def calc_payback(request):
         energy_output.append( days_info ) 
         day += one_day
 
-    output_data = form.cleaned_data.copy()
+    output_data = {}
+    output_data.update(system_form.cleaned_data)
+    output_data.update(location_form.cleaned_data)
     output_data["energy_output"] = energy_output
     
     return render_to_response('response.html', output_data)

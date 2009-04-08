@@ -1,8 +1,13 @@
-Placeholder for eventual form.
-
 <form action="/calc_payback/" method="POST">
-<table>
-{{ form.as_table }}
-</table>
-<input type="submit" value="Submit" />
+	<h3>Configure Solar Panels</h3>
+	<table id="system_config">
+		{{ system_form.as_table }}
+	</table>
+
+	<h3>Configure Location</h3>
+	<table id="loc_config">
+		{{ location_form.as_table}}
+	</table>
+
+	<input type="submit" value="Submit" />
 </form>

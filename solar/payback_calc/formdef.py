@@ -1,6 +1,6 @@
 from django import forms
 
-class SolarForm(forms.Form):
+class SystemForm(forms.Form):
     # first part
     # number_of_panels = forms.IntegerField()
     # number_of_panels.label = "Number of panels"
@@ -23,9 +23,11 @@ class SolarForm(forms.Form):
     installation_price = forms.FloatField()
     installation_price.label = "Installation price"
 
+class LocationForm(forms.Form):
     # coords
     latitude = forms.FloatField()
     longitude = forms.FloatField()
-    
+
+class CostsForm(forms.Form):
     avg_price = forms.FloatField()
 
