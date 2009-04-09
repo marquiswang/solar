@@ -2,9 +2,9 @@ import MySQLdb
 import urllib
 import string
 
-def hostip(ip_str):
+def ip_to_location(ip_str):
     """
-    hostip: Wrapper for ip geolocation database
+    ip_to_location: Looks up the location information of an IP address.
     Uses ip database from http://hostip.info and publicly available zip code database pulled from
     http://scripts.ringsworld.com/calculators/zipcode-1.1.0/
     
@@ -34,4 +34,42 @@ def hostip(ip_str):
         
     return (city, state, zip_code, lat, lng)
     
+def city_to_latlng(city, state):
+    """
+    city_to_latlng: Looks up the latitude and longitude of a city.
+    
+    Outputs a tuple in (lat, lng) form.
+    Returns False is no such city is found.
+    """
+    conn = MySQLdb.connect (host = 'localhost',
+                            user = 'solar',
+                            passwd = 's0l4r',
+                            db = 'hostip')
+    cursor = conn.cursor()
+    cursor.execute("SELECT lattitude, longitude FROM zip_code WHERE (city, state_prefix) = ('"+string.upper(city)+"','"+string.upper(state)+"')")
+    
+    if cursor.rowcount == 0:
+        return False
+    lat, lng = cursor.fetchone()
+    
+    return (lat, lng)
+    
+def zip_to_latlng(zip):
+    """
+    city_to_latlng: Looks up the latitude and longitude of a zip code.
 
+    Outputs a tuple in (lat, lng) form.
+    Returns False is no such zip is found.
+    """
+    conn = MySQLdb.connect (host = 'localhost',
+                            user = 'solar',
+                            passwd = 's0l4r',
+                            db = 'hostip')
+    cursor = conn.cursor()
+    cursor.execute("SELECT lattitude, longitude FROM zip_code WHERE zip_code = "+str(zip))
+
+    if cursor.rowcount == 0:
+        return False
+    lat, lng = cursor.fetchone()
+
+    return (lat, lng)
