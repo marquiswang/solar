@@ -42,9 +42,10 @@ def calc_payback(request):
 	# Bind forms to the POST data
     system_form = SystemForm(request.POST)
     location_form = LocationForm(request.POST)
+    costs_form = CostsForm(request.POST)
     
     # All validation rules pass
-    if not system_form.is_valid() or not location_form.is_valid():
+    if not system_form.is_valid() or not location_form.is_valid() or not costs_form.is_valid():
         return render_to_response('error.html', {})
     
     one_day = datetime.timedelta(days=1)
@@ -72,26 +73,25 @@ def calc_payback(request):
     # Determine a list of monthly (payed, used)
     cost_per_month = []
     costs_choice = request.POST['costs_choice']
-    if (costs_choice = "averages" and loc_choice == "city_state"):
+    
+    if (costs_choice == "averages" and loc_choice == "city_state"):
         cost_per_month = [avg_cost(state)]*12
-    else if (costs_choice = "specified"):
-        costs_form = CostsForm(request.POST)
+    elif (costs_choice == "specified"):
         cost_per_month = costs_form.month_data()
     else:
         return render_to_response('error.html', {})
 
     # Calculate one year of energy savings
-    i = 0
+    i = 1
     amount_saved = 0
-    for (cost, usage) in range(len(cost_per_month)):
-        amount_saved += (avg_sunlight(lat, lng, today.year-1, i)/1000)\
-            * (cost/usage)
+    for (cost, usage) in cost_per_month:
+        amount_saved += (avg_sunlight(lat, lng, today.year-1, i, system_form.cleaned_data['peak_power_output'])/1000)\
+            * (float(cost)/float(usage))
         i+=1
 
     output_data = {}
     output_data.update(system_form.cleaned_data)
     output_data.update(location_form.cleaned_data)
-    output_data["energy_output"] = energy_output
     output_data["loc_choice"] = loc_choice
     output_data["lat_str"] = str("%.4f" % lat)+"N" if lat > 0 else str("%.4f" % -lat)+"S"
     output_data["lng_str"] = str("%.4f" % lng)+"E" if lng > 0 else str("%.4f" % -lng)+"W"
