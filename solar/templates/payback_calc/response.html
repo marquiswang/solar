@@ -3,22 +3,39 @@
 {% block title %}Solar: Your answer!{% endblock %}
 
 {% block content %}
-<p>
-	Peak power output: {{peak_power_output}}W <br />
-	Installation price: ${{installation_price}} <br />
-	Latitude: {{latitude}}<br />
-	Longitude: {{longitude}}<br />
-</p>
+<h3>Specified Info</h3>
+<div id="spec_info">
+	<h4>System information:</h4>
+	<p>
+		Peak power output: {{peak_power_output}}W <br />
+		Installation price: ${{installation_price}}
+	</p>
+	<h4>Location:</h4>
+	<p>
+		{% ifequal loc_choice "city_state" %}
+		{{city}}, {{state}}<br />
+		{% endifequal %}
+		{% ifequal loc_choice "zip_code" %}
+		{{zip_code}}<br />
+		{% endifequal %}
+		{% ifequal loc_choice "lat_lng" %}
+		{{lat_str}}, {{lng_str}}<br />
+		{% endifequal %}
+	</p>
+</div>
 
-energy output: <br />
-<table>
-	{% for day in energy_output %}
-		<tr>
-			<td> {{day.day}} </td>
-			<td> {{day.energy_output}} KWh </td>
-		</tr>
-	{% endfor %}	
-</table>
+<h3> Results </h3>
+<div id="results">
+	Energy output: <br />
+	<table>
+		{% for day in energy_output %}
+			<tr>
+				<td> {{day.day}} </td>
+				<td> {{day.energy_output}} KWh </td>
+			</tr>
+		{% endfor %}	
+	</table>
+</div>
 {% endblock %}
 			
 				

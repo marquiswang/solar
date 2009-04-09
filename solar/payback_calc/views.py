@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from formdef import *
 from solar.payback_calc.srlocat_wrapper import srlocat
-from solar.payback_calc.hostip import hostip
+from solar.payback_calc.hostip import *
 
 import datetime
 
@@ -15,7 +15,7 @@ def index(request):
     """
     system_form = SystemForm()
     
-    city, state, zip_code, lat, lng = hostip(request.META.get('REMOTE_ADDR'))
+    city, state, zip_code, lat, lng = ip_to_location(request.META.get('REMOTE_ADDR'))
     location_form = LocationForm(initial = \
         {'city' : city, 'state' : state, 'zip_code' : zip_code, 'latitude' : lat, 'longitude' : lng})
     return render_to_response('index.html', {'system_form': system_form, 'location_form': location_form})
@@ -42,12 +42,27 @@ def calc_payback(request):
     
     one_day = datetime.timedelta(days=1)
     today = datetime.date.today()
-    expected_lifetime = datetime.timedelta(weeks=52)
+    expected_lifetime = datetime.timedelta(weeks=2)
     end_of_life = today + expected_lifetime
     
+    # Determine user's location
+    loc_choice = request.POST['loc_choice']
+    if loc_choice == "lat_lng":
+        lat = location_form.cleaned_data['latitude']
+        lng = location_form.cleaned_data['longitude']
+    elif loc_choice == "city_state":
+        city = location_form.cleaned_data['city']
+        state = location_form.cleaned_data['state']
+        lat, lng = city_to_latlng(city, state)
+    elif loc_choice == "zip_code":
+        zip_code = location_form.cleaned_data['zip_code']
+        lat,lng = zip_to_latlng(zip_code)
+    else:
+        return render_to_response('error.html', {
+            'error_message': "You didn't select a choice.",
+        })
+    
     # Calculate upcoming energy output
-    lat = location_form.cleaned_data['latitude']
-    lng = location_form.cleaned_data['longitude']
     peak_power_output = system_form.cleaned_data['peak_power_output']
     energy_output = []
     
@@ -69,6 +84,9 @@ def calc_payback(request):
     output_data.update(system_form.cleaned_data)
     output_data.update(location_form.cleaned_data)
     output_data["energy_output"] = energy_output
+    output_data["loc_choice"] = loc_choice
+    output_data["lat_str"] = str("%.4f" % lat)+"N" if lat > 0 else str("%.4f" % -lat)+"S"
+    output_data["lng_str"] = str("%.4f" % lng)+"E" if lng > 0 else str("%.4f" % -lng)+"W"
     
     return render_to_response('response.html', output_data)
 

@@ -13,15 +13,15 @@
 	<table id="loc_config">
 		<tr> <td colspan="3">We need to know where are you to provide accurate estimates.</td> </tr>
 		<tr>
-			<th><input type="radio" name="location" value="city_state"></th>
+			<th><input type="radio" name="loc_choice" value="city_state"></th>
 			<td>City/State: {{ location_form.city}} {{ location_form.state}}</td>
 		</tr>
 		<tr>
-			<th><input type="radio" name="location" value="zip_code"></th>
+			<th><input type="radio" name="loc_choice" value="zip_code"></th>
 			<td>ZIP: {{ location_form.zip_code}}</td>
 		</tr>
 		<tr>
-			<th><input type="radio" name="location" value="lat_long"></th>
+			<th><input type="radio" name="loc_choice" value="lat_lng"></th>
 			<td>Coordinates: <span class="lat_long">Lat:</span> {{location_form.latitude}} <span class="lat_long">Long:</span> {{ location_form.longitude}}</td>
 		</tr>
 	</table>
@@ -30,11 +30,11 @@
 	<table id="cost_config">
 		<tr> <td colspan="3"> We can either use averages for power costs and usage in your area, or your own power bill data. </td> </tr>
 		<tr>
-			<th><input type="radio" name="costs" value="averages"></th>
+			<th><input type="radio" name="costs_choice" value="averages"></th>
 			<td>Use location averages for pricing (less accurate)</td>
 		</tr>
 		<tr>
-			<th><input type="radio" name="costs" value="specified"></th>
+			<th><input type="radio" name="costs_choice" value="specified"></th>
 			<td>Input your own power bill data for the last year</td>
 		</tr>
 	</table>
