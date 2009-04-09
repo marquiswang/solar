@@ -13,7 +13,7 @@
 	<table id="loc_config">
 		<tr> <td colspan="3">We need to know where are you to provide accurate estimates.</td> </tr>
 		<tr>
-			<th><input type="radio" name="loc_choice" value="city_state"></th>
+			<th><input type="radio" name="loc_choice" value="city_state" checked></th>
 			<td>City/State: {{ location_form.city}} {{ location_form.state}}</td>
 		</tr>
 		<tr>
@@ -34,7 +34,7 @@
 			<td>Use location averages for pricing (less accurate)</td>
 		</tr>
 		<tr>
-			<th><input type="radio" name="costs_choice" value="specified"></th>
+			<th><input type="radio" name="costs_choice" value="specified" checked></th>
 			<td>Input your own power bill data for the last year</td>
 		</tr>
 	</table>
