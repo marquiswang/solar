@@ -319,7 +319,7 @@ def city_to_latlng(city, state):
         return False
 
     lat = city_state_records[0].lattitude
-    long = city_state_records[0].longitude
+    lng = city_state_records[0].longitude
     
     return (lat, lng)
 
