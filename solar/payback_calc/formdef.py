@@ -96,9 +96,25 @@ class CostsForm(forms.Form):
     dec_bill  = forms.DecimalField(required=False, decimal_places=2)
     dec_usage = forms.IntegerField(required=False)
 
+    bills = \
+    [
+    ("January", jan_bill, jan_usage),
+    ("February", feb_bill, feb_usage),
+    ("March", mar_bill, mar_usage),
+    ("April", apr_bill, apr_usage),
+    ("May", may_bill, may_usage),
+    ("June", jun_bill, jun_usage),
+    ("July", jul_bill, jul_usage),
+    ("August", aug_bill, aug_usage),
+    ("September", sep_bill, sep_usage),
+    ("October", oct_bill, oct_usage),
+    ("November", nov_bill, nov_usage),
+    ("December", dec_bill, dec_usage)
+    ]
+
     def month_data(self):
         answer = []
         for i in ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", \
-                  "sep", "oct", "nov", "dec"]
+                  "sep", "oct", "nov", "dec"]:
             answer += [(self.cleaned_data[i+"_bill"], self.cleaned_data[i+"_usage"])]
         return answer
