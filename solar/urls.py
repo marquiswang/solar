@@ -7,7 +7,7 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('',
     # Example:
     (r'^$', 'solar.payback_calc.views.index'),
-    (r'^calc_payback/', 'solar.payback_calc.views.calc_payback'),
+    (r'^calc_payback/', 'solar.payback_calc.views.calc_payback')
     #(r'^css/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/day/solar2009/trunk/solar/templates/payback_calc'})
 
     

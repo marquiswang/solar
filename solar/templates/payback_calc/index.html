@@ -4,111 +4,120 @@
 
 {% block content %}
 <form action="/calc_payback/" method="POST">
+	<h2><b>Solar 2009</b> - Solar panel installation planner</h2>
 	<h3>Configure Solar Panels</h3>
-	<table id="system_config">
+	<div>
+		<table id="system_config">
 		{{ system_form.as_table }}
-	</table>
+		</table>
+	</div>
 
 	<h3>Configure Location</h3>
-	<table id="loc_config">
-		<tr> <td colspan="3">We need to know where are you to provide accurate estimates.</td> </tr>
-		<tr>
-			<th><input type="radio" name="loc_choice" value="city_state" checked></th>
-			<td>City/State: {{ location_form.city}} {{ location_form.state}}</td>
-		</tr>
-		<tr>
-			<th><input type="radio" name="loc_choice" value="zip_code"></th>
-			<td>ZIP: {{ location_form.zip_code}}</td>
-		</tr>
-		<tr>
-			<th><input type="radio" name="loc_choice" value="lat_lng"></th>
-			<td>Coordinates: <span class="lat_long">Lat:</span> {{location_form.latitude}} <span class="lat_long">Long:</span> {{ location_form.longitude}}</td>
-		</tr>
-	</table>
+	<div>
+		<table id="loc_config">
+			<tr> <td colspan="3">We need to know where are you to provide accurate estimates. Please select one of these options for determining your location and fill in the corresponding field.</td> </tr>
+			<tr>
+				<th><input type="radio" name="loc_choice" value="city_state" checked></th>
+				<td>City/State: {{ location_form.city}} {{ location_form.state}}</td>
+			</tr>
+			<tr>
+				<th><input type="radio" name="loc_choice" value="zip_code"></th>
+				<td>ZIP: {{ location_form.zip_code}}</td>
+			</tr>
+			<tr>
+				<th><input type="radio" name="loc_choice" value="lat_lng"></th>
+				<td>Coordinates: <span class="lat_long">Lat:</span> {{location_form.latitude}} <span class="lat_long">Long:</span> {{ location_form.longitude}}</td>
+			</tr>
+		</table>
+	</div>
 
 	<h3>Configure Costs and Pricing</h3>
-	<table id="cost_config">
-		<tr> <td colspan="3"> We can either use averages for power costs and usage in your area, or your own power bill data. </td> </tr>
-		<tr>
-			<th><input type="radio" name="costs_choice" value="averages"></th>
-			<td>Use location averages for pricing (less accurate)</td>
-		</tr>
-		<tr>
-			<th><input type="radio" name="costs_choice" value="specified" checked></th>
-			<td>Input your own power bill data for the last year</td>
-		</tr>
-	</table>
-	<table id="power_bill">
-		<tr>
-			<th>Month</th>
-			<th>Bill that month ($)</th>
-			<th>Energy used (KWh) </th>
-		</tr>
-		<tr>
-			<td>January</td>
-			<td>{{costs_form.jan_bill}}</td>
-			<td>{{costs_form.jan_usage}}</td>
-		</tr>
-		<tr>
-			<td>February</td>
-			<td>{{costs_form.feb_bill}}</td>
-			<td>{{costs_form.feb_usage}}</td>
-		</tr>
-		<tr>
-			<td>March</td>
-			<td>{{costs_form.mar_bill}}</td>
-			<td>{{costs_form.mar_usage}}</td>
-		</tr>
-		<tr>
-			<td>April</td>
-			<td>{{costs_form.apr_bill}}</td>
-			<td>{{costs_form.apr_usage}}</td>
-		</tr>
-		<tr>
-			<td>May</td>
-			<td>{{costs_form.may_bill}}</td>
-			<td>{{costs_form.may_usage}}</td>
-		</tr>
-		<tr>
-			<td>June</td>
-			<td>{{costs_form.jun_bill}}</td>
-			<td>{{costs_form.jun_usage}}</td>
-		</tr>
-		<tr>
-			<td>July</td>
-			<td>{{costs_form.jul_bill}}</td>
-			<td>{{costs_form.jul_usage}}</td>
-		</tr>
-		<tr>
-			<td>August</td>
-			<td>{{costs_form.aug_bill}}</td>
-			<td>{{costs_form.aug_usage}}</td>
-		</tr>
-		<tr>
-			<td>September</td>
-			<td>{{costs_form.sep_bill}}</td>
-			<td>{{costs_form.sep_usage}}</td>
-		</tr>
-		<tr>
-			<td>October</td>
-			<td>{{costs_form.oct_bill}}</td>
-			<td>{{costs_form.oct_usage}}</td>
-		</tr>
-		<tr>
-			<td>November</td>
-			<td>{{costs_form.nov_bill}}</td>
-			<td>{{costs_form.nov_usage}}</td>
-		</tr>
-		<tr>
-			<td>December</td>
-			<td>{{costs_form.dec_bill}}</td>
-			<td>{{costs_form.dec_usage}}</td>
-		</tr>
-	</table>
-	
+	<div>
+		<table id="cost_config">
+			<tr> <td colspan="3"> We can either use averages for power costs and usage in your area, or your own power bill data. </td> </tr>
+			<tr>
+				<th><input type="radio" name="costs_choice" value="averages"></th>
+				<td>Use location averages for pricing (less accurate)</td>
+			</tr>
+			<tr>
+				<th><input type="radio" name="costs_choice" value="specified" checked></th>
+				<td>Input your own power bill data for the last year</td>
+			</tr>
+		</table>
+		<table id="power_bill">
+			<tr>
+				<th>Month</th>
+				<th>Bill that month ($)</th>
+				<th>Energy used (KWh) </th>
+			</tr>
+			<tr>
+				<td>January</td>
+				<td>{{costs_form.jan_bill}}</td>
+				<td>{{costs_form.jan_usage}}</td>
+			</tr>
+			<tr>
+				<td>February</td>
+				<td>{{costs_form.feb_bill}}</td>
+				<td>{{costs_form.feb_usage}}</td>
+			</tr>
+			<tr>
+				<td>March</td>
+				<td>{{costs_form.mar_bill}}</td>
+				<td>{{costs_form.mar_usage}}</td>
+			</tr>
+			<tr>
+				<td>April</td>
+				<td>{{costs_form.apr_bill}}</td>
+				<td>{{costs_form.apr_usage}}</td>
+			</tr>
+			<tr>
+				<td>May</td>
+				<td>{{costs_form.may_bill}}</td>
+				<td>{{costs_form.may_usage}}</td>
+			</tr>
+			<tr>
+				<td>June</td>
+				<td>{{costs_form.jun_bill}}</td>
+				<td>{{costs_form.jun_usage}}</td>
+			</tr>
+			<tr>
+				<td>July</td>
+				<td>{{costs_form.jul_bill}}</td>
+				<td>{{costs_form.jul_usage}}</td>
+			</tr>
+			<tr>
+				<td>August</td>
+				<td>{{costs_form.aug_bill}}</td>
+				<td>{{costs_form.aug_usage}}</td>
+			</tr>
+			<tr>
+				<td>September</td>
+				<td>{{costs_form.sep_bill}}</td>
+				<td>{{costs_form.sep_usage}}</td>
+			</tr>
+			<tr>
+				<td>October</td>
+				<td>{{costs_form.oct_bill}}</td>
+				<td>{{costs_form.oct_usage}}</td>
+			</tr>
+			<tr>
+				<td>November</td>
+				<td>{{costs_form.nov_bill}}</td>
+				<td>{{costs_form.nov_usage}}</td>
+			</tr>
+			<tr>
+				<td>December</td>
+				<td>{{costs_form.dec_bill}}</td>
+				<td>{{costs_form.dec_usage}}</td>
+			</tr>
+		</table>
+	</div>	
+
 	<h3> Finalize </h3>
-	<table id="finalize">
-		<tr><td><input type="submit" value="Submit" /></td><td><input type="checkbox" name="save"> Save my data for when I come back</td></tr>
-	</table>
+	<div>
+		<table id="finalize">
+			<tr><td><input type="submit" value="Submit" /></td><td><input type="checkbox" name="save"> Save my data for when I come back</td></tr>
+		</table>
+	</div>
 </form>
 {% endblock %}
