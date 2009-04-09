@@ -277,14 +277,7 @@ def ip_to_location(ip_str):
     a,b,c,d = ip_str.split(".")
     
     ip_records = ip_dict[int(a)].objects.filter(b=b, c=c)
-    """
-    conn = MySQLdb.connect (host = 'localhost',
-                            user = 'solar',
-                            passwd = 's0l4r',
-                            db = 'hostip')
-    cursor = conn.cursor()
-    cursor.execute("SELECT name, state, lat, lng FROM cityByCountry WHERE (city, country) = (select city, country from ip4_"+a+" where b = "+b+" and c = "+c+")")
-    """
+
     if ip_records == 0:
         return ("", "", None, None, None)
 
@@ -311,7 +304,7 @@ def ip_to_location(ip_str):
 
     zip_code = zip_records[0].zip_code
         
-    return (city, state, zip_code, lat, lng)
+    return (unquote(city), unquote(state), zip_code, lat, lng)
     
 def city_to_latlng(city, state):
     """
@@ -320,18 +313,16 @@ def city_to_latlng(city, state):
     Outputs a tuple in (lat, lng) form.
     Returns False is no such city is found.
     """
-    conn = MySQLdb.connect (host = 'localhost',
-                            user = 'solar',
-                            passwd = 's0l4r',
-                            db = 'hostip')
-    cursor = conn.cursor()
-    cursor.execute("SELECT lattitude, longitude FROM zip_code WHERE (city, state_prefix) = ('"+string.upper(city)+"','"+string.upper(state)+"')")
+    city_state_records = models.ZipCode.objects.filter(city = string.upper(city), state_prefix = string.upper(state))
     
-    if cursor.rowcount == 0:
+    if len(city_state_records) == 0:
         return False
-    lat, lng = cursor.fetchone()
+
+    lat = city_state_records[0].lattitude
+    long = city_state_records[0].longitude
     
     return (lat, lng)
+
     
 def zip_to_latlng(zip):
     """
@@ -340,16 +331,13 @@ def zip_to_latlng(zip):
     Outputs a tuple in (lat, lng) form.
     Returns False is no such zip is found.
     """
-    conn = MySQLdb.connect (host = 'localhost',
-                            user = 'solar',
-                            passwd = 's0l4r',
-                            db = 'hostip')
-    cursor = conn.cursor()
-    cursor.execute("SELECT lattitude, longitude FROM zip_code WHERE zip_code = "+str(zip))
-
-    if cursor.rowcount == 0:
+    zip_records = models.ZipCode.objects.filter(zip_code = zip)
+    
+    if len(zip_records) == 0:
         return False
-    lat, lng = cursor.fetchone()
 
+    lat = zip_records[0].lattitude
+    lng = zip_records[0].longitude
+    
     return (lat, lng)
 
