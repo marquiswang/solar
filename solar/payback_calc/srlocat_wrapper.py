@@ -34,7 +34,9 @@ def srlocat(lat, long, year, month, day = 0):
             lambda x: x!="" and (x[0] in "0123456789"), srlocat_output)
         return [parse_line(i) for i in srlocat_output]
 
-def avg_sunlight(lat, long, year, month):
-    data = srlocat(lat, long, year, month)
-    total_sunlight = reduce(lambda x,y = x + y[1], [0]+data)
-    return total_sunlight/len(data)
+def avg_sunlight(lat, long, year, month, panel_max):
+    #1000 is the nominal test conditions, should be in a central file somewhere
+    data = [(panel_max*(i[0]/1000)*24) for i in \
+        srlocat(lat, long, year, month)]
+    total_generated = reduce(lambda x,y = x + y[1], [0]+data)
+    return total_generated

@@ -2,8 +2,9 @@ from django.template import Context, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from formdef import *
-from solar.payback_calc.srlocat_wrapper import srlocat
+from solar.payback_calc.srlocat_wrapper import avg_sunlight
 from solar.payback_calc.hostip import *
+from solar.payback_calc.avg_cost import avg_cost
 
 import datetime
 
@@ -68,26 +69,24 @@ def calc_payback(request):
             'error_message': "You didn't select a choice.",
         })
     
+    # Determine a list of monthly (payed, used)
+    cost_per_month = []
     costs_choice = request.POST['costs_choice']
+    if (costs_choice = "averages" and loc_choice == "city_state"):
+        cost_per_month = [avg_cost(state)]*12
+    else if (costs_choice = "specified"):
+        costs_form = CostsForm(request.POST)
+        cost_per_month = costs_form.month_data()
+    else:
+        return render_to_response('error.html', {})
 
-
-    # Calculate upcoming energy output
-    peak_power_output = system_form.cleaned_data['peak_power_output']
-    energy_output = []
-   
-    day = today
-    while day < end_of_life:
-        insolation, zenith_cos = srlocat(lat, lng, day.year, day.month, day.day)
-        
-        days_power_output = peak_power_output * insolation / 1000.0
-        days_energy_output = days_power_output * 24 / 1000
-        
-        days_info = {}
-        days_info['day'] = day.strftime("%m/%d/%y")
-        days_info['energy_output'] = days_energy_output
-        
-        energy_output.append( days_info ) 
-        day += one_day
+    # Calculate one year of energy savings
+    i = 0
+    amount_saved = 0
+    for (cost, usage) in range(len(cost_per_month)):
+        amount_saved += (avg_sunlight(lat, lng, today.year-1, i)/1000)\
+            * (cost/usage)
+        i+=1
 
     output_data = {}
     output_data.update(system_form.cleaned_data)
@@ -96,6 +95,7 @@ def calc_payback(request):
     output_data["loc_choice"] = loc_choice
     output_data["lat_str"] = str("%.4f" % lat)+"N" if lat > 0 else str("%.4f" % -lat)+"S"
     output_data["lng_str"] = str("%.4f" % lng)+"E" if lng > 0 else str("%.4f" % -lng)+"W"
+    output_data["savings"] = str(amount_saved)
     
     return render_to_response('response.html', output_data)
 
