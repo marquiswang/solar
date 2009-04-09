@@ -13,12 +13,18 @@ def index(request):
         payback calculator should load.  templates/index.html should have
         the form.
     """
-    system_form = SystemForm()
-    
     city, state, zip_code, lat, lng = ip_to_location(request.META.get('REMOTE_ADDR'))
+    
+    system_form = SystemForm()
     location_form = LocationForm(initial = \
-        {'city' : city, 'state' : state, 'zip_code' : zip_code, 'latitude' : lat, 'longitude' : lng})
-    return render_to_response('index.html', {'system_form': system_form, 'location_form': location_form})
+        {   'city' : city, 
+            'state' : state, 
+            'zip_code' : zip_code, 
+            'latitude' : lat, 
+            'longitude' : lng
+        })
+    costs_form = CostsForm()
+    return render_to_response('index.html', {'system_form': system_form, 'location_form': location_form, 'costs_form': costs_form})
 
 
 def calc_payback(request):

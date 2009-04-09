@@ -4,7 +4,7 @@ class SystemForm(forms.Form):
     peak_power_output = forms.IntegerField()
     peak_power_output.label = "Peak power output (W)"
     
-    installation_price = forms.FloatField()
+    installation_price = forms.DecimalField(decimal_places=2)
     installation_price.label = "Installation price"
 
 class LocationForm(forms.Form):
@@ -71,5 +71,27 @@ class LocationForm(forms.Form):
     zip_code.label = "ZIP"
 
 class CostsForm(forms.Form):
-    avg_price = forms.FloatField()
-
+    jan_bill  = forms.DecimalField(required=False, decimal_places=2)
+    jan_usage = forms.IntegerField(required=False)
+    feb_bill  = forms.DecimalField(required=False, decimal_places=2)
+    feb_usage = forms.IntegerField(required=False)
+    mar_bill  = forms.DecimalField(required=False, decimal_places=2)
+    mar_usage = forms.IntegerField(required=False)
+    apr_bill  = forms.DecimalField(required=False, decimal_places=2)
+    apr_usage = forms.IntegerField(required=False)
+    may_bill  = forms.DecimalField(required=False, decimal_places=2)
+    may_usage = forms.IntegerField(required=False)
+    jun_bill  = forms.DecimalField(required=False, decimal_places=2)
+    jun_usage = forms.IntegerField(required=False)
+    jul_bill  = forms.DecimalField(required=False, decimal_places=2)
+    jul_usage = forms.IntegerField(required=False)
+    aug_bill  = forms.DecimalField(required=False, decimal_places=2)
+    aug_usage = forms.IntegerField(required=False)
+    sep_bill  = forms.DecimalField(required=False, decimal_places=2)
+    sep_usage = forms.IntegerField(required=False)
+    oct_bill  = forms.DecimalField(required=False, decimal_places=2)
+    oct_usage = forms.IntegerField(required=False)
+    nov_bill  = forms.DecimalField(required=False, decimal_places=2)
+    nov_usage = forms.IntegerField(required=False)
+    dec_bill  = forms.DecimalField(required=False, decimal_places=2)
+    dec_usage = forms.IntegerField(required=False)
