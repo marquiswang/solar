@@ -68,10 +68,13 @@ def calc_payback(request):
             'error_message': "You didn't select a choice.",
         })
     
+    costs_choice = request.POST['costs_choice']
+
+
     # Calculate upcoming energy output
     peak_power_output = system_form.cleaned_data['peak_power_output']
     energy_output = []
-    
+   
     day = today
     while day < end_of_life:
         insolation, zenith_cos = srlocat(lat, lng, day.year, day.month, day.day)

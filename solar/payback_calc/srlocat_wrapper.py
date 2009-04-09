@@ -33,3 +33,8 @@ def srlocat(lat, long, year, month, day = 0):
         srlocat_output = filter(\
             lambda x: x!="" and (x[0] in "0123456789"), srlocat_output)
         return [parse_line(i) for i in srlocat_output]
+
+def avg_sunlight(lat, long, year, month):
+    data = srlocat(lat, long, year, month)
+    total_sunlight = reduce(lambda x,y = x + y[1], [0]+data)
+    return total_sunlight/len(data)
