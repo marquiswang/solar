@@ -46,14 +46,16 @@ def calc_payback(request):
     end_of_life = today + expected_lifetime
     
     # Calculate upcoming energy output
+    lat = location_form.cleaned_data['latitude']
+    lng = location_form.cleaned_data['longitude']
+    peak_power_output = system_form.cleaned_data['peak_power_output']
     energy_output = []
     
     day = today
     while day < end_of_life:
-        insolation = srlocat(location_form.cleaned_data['latitude'], \
-                             location_form.cleaned_data['longitude'], day.year, day.month, day.day)
+        insolation, zenith_cos = srlocat(lat, lng, day.year, day.month, day.day)
         
-        days_power_output = system_form.cleaned_data['peak_power_output'] * insolation[0] / 1000.0
+        days_power_output = peak_power_output * insolation / 1000.0
         days_energy_output = days_power_output * 24 / 1000
         
         days_info = {}
