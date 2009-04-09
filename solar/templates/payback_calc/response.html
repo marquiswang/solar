@@ -17,7 +17,7 @@
 		{% endifequal %}
 		
 		{% ifequal loc_choice "zip_code" %}
-		{{zip_code}}<br />
+		{{city}}, {{state}} {{zip_code}}<br />
 		{% endifequal %}
 		
 		{% ifequal loc_choice "lat_lng" %}
@@ -28,15 +28,8 @@
 
 <h3> Results </h3>
 <div id="results">
-	Energy Savings in One Year: {{savings}} <br />
-<!--	<table>
-		{% for day in energy_output %}
-			<tr>
-				<td> {{day.day}} </td>
-				<td> {{day.energy_output}} KWh </td>
-			</tr>
-		{% endfor %}	
-	</table> -->
+	Energy Savings in One Year: ${{savings}} <br />
+	Payback Time: {{payback_time}} years <br />
 </div>
 {% endblock %}
 			

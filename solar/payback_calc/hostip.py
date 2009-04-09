@@ -271,7 +271,7 @@ def ip_to_location(ip_str):
     
     @ip_str: IPv4 address in "aaa.bbb.ccc.ddd" form.
     
-    Outputs a tuple in (city, state, Ip lat, lng) form.
+    Outputs a tuple in (city, state, zip lat, lng) form.
     Return ("", "", None, None, None) if nothing is found.
     """
     a,b,c,d = ip_str.split(".")
@@ -324,14 +324,14 @@ def city_to_latlng(city, state):
     return (lat, lng)
 
     
-def zip_to_latlng(zip):
+def zip_to_latlng(zip_code):
     """
-    city_to_latlng: Looks up the latitude and longitude of a zip code.
+    zip_to_latlng: Looks up the latitude and longitude of a zip code.
 
     Outputs a tuple in (lat, lng) form.
     Returns False is no such zip is found.
     """
-    zip_records = models.ZipCode.objects.filter(zip_code = zip)
+    zip_records = models.ZipCode.objects.filter(zip_code = zip_code)
     
     if len(zip_records) == 0:
         return False
@@ -341,3 +341,21 @@ def zip_to_latlng(zip):
     
     return (lat, lng)
 
+def zip_to_location(zip_code):
+    """
+    zip_to_latlng: Looks up the latitude, longitude and state of a zip code.
+
+    Outputs a tuple in (city, state, lat, lng) form.
+    Returns False is no such zip is found.
+    """
+    zip_records = models.ZipCode.objects.filter(zip_code = zip_code)
+
+    if len(zip_records) == 0:
+        return False
+
+    lat = zip_records[0].lattitude
+    lng = zip_records[0].longitude
+    city = zip_records[0].city.title()
+    state = zip_records[0].state_prefix
+
+    return (city, state, lat, lng)
