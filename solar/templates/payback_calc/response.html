@@ -15,9 +15,11 @@
 		{% ifequal loc_choice "city_state" %}
 		{{city}}, {{state}}<br />
 		{% endifequal %}
+		
 		{% ifequal loc_choice "zip_code" %}
 		{{zip_code}}<br />
 		{% endifequal %}
+		
 		{% ifequal loc_choice "lat_lng" %}
 		{{lat_str}}, {{lng_str}}<br />
 		{% endifequal %}
