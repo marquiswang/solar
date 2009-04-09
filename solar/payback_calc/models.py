@@ -7,6 +7,17 @@
 
 from django.db import models
 
+class StateCost(models.Model):
+    state = models.CharField(max_length=2, primary_key=True)
+    num_consumers = models.IntegerField()
+    avg_monthly_consumption = models.IntegerField()
+
+    #avt_retail_price is in cents per kilowatt hour
+    avg_retail_price = models.FloatField(null=True, blank=True)
+
+    avg_monthly_bill = models.FloatField(null=True, blank=True)
+
+
 class Citybycountry(models.Model):
     city = models.IntegerField(primary_key=True)
     country = models.IntegerField()
