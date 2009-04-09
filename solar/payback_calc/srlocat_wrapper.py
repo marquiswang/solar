@@ -24,7 +24,7 @@ def srlocat(lat, long, year, month, day = 0):
         else:
             return (0, 0)
     else:
-        command = ["payback_calc/srlocat"]
+        command = ["srlocat"]
         print os.getcwd()+command[0]
         args = [str(i) for i in [lat, long, year, month]]
         srlocat_process = Popen(command+args, stdout=PIPE)
