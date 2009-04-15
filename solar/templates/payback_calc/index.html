@@ -11,7 +11,9 @@
         $("#costs_choice_spec").click(function(event){
             $("#power_bill").slideDown("slow")
         });
-
+        
+        if ($("#costs_choice_spec").is(":checked") == false)
+            $("#power_bill").hide()
      });
     
    </script>
