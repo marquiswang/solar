@@ -4,19 +4,45 @@
 
 {% block scripts %}
 <script type="text/javascript">
-    $(document).ready(function(){
-        $("#costs_choice_avg").click(function(event){
-            $("#power_bill").slideUp("slow")
-        });
-        $("#costs_choice_spec").click(function(event){
-            $("#power_bill").slideDown("slow")
-        });
-        
-        if ($("#costs_choice_spec").is(":checked") == false)
-            $("#power_bill").hide()
-     });
-    
-   </script>
+function disable_unused_locations() {
+	button_lookup = {
+		"#loc_choice_cs"  : ["#id_city", "#id_state"], 
+		"#loc_choice_zip" : ["#id_zip_code"],
+		"#loc_choice_ll"  : ["#id_latitude", "#id_longitude"]
+		}
+	
+	for (var radio_button in button_lookup) {
+		for (i in button_lookup[radio_button]) {
+			if ($(radio_button).is(":checked") == true) 
+				$(button_lookup[radio_button][i]).removeAttr("disabled")
+			else
+				$(button_lookup[radio_button][i]).attr("disabled", true)
+		}
+	}
+}
+
+$(document).ready(function(){
+	// Disable unused location configuration options
+	disable_unused_locations()
+	
+	// Update when one is selected
+	$('#loc_config').find(':radio').change(function(event){
+		disable_unused_locations()
+	})
+	
+	// Hide power bill input table if its not being used
+	if ($("#costs_choice_spec").is(":checked") == false)
+		$("#power_bill").hide()
+	
+	// Toggle on the input table if necessary
+	$("#costs_choice_avg").change(function(event){
+		$("#power_bill").slideUp("slow")
+	});
+	$("#costs_choice_spec").change(function(event){
+		$("#power_bill").slideDown("slow")
+	});
+});    
+</script>
 {% endblock %}
 
 {% block content %}
@@ -34,15 +60,15 @@
 		<table id="loc_config">
 			<tr> <td colspan="3">We need to know where are you to provide accurate estimates. Please select one of these options for determining your location and fill in the corresponding field.</td> </tr>
 			<tr>
-				<th><input type="radio" name="loc_choice" value="city_state" checked></th>
+				<th><input id="loc_choice_cs" type="radio" name="loc_choice" value="city_state" checked></th>
 				<td>City/State: {{ location_form.city}} {{ location_form.state}}</td>
 			</tr>
 			<tr>
-				<th><input type="radio" name="loc_choice" value="zip_code"></th>
+				<th><input id="loc_choice_zip" type="radio" name="loc_choice" value="zip_code"></th>
 				<td>ZIP: {{ location_form.zip_code}}</td>
 			</tr>
 			<tr>
-				<th><input type="radio" name="loc_choice" value="lat_lng"></th>
+				<th><input id="loc_choice_ll" type="radio" name="loc_choice" value="lat_lng"></th>
 				<td>Coordinates: <span class="lat_long">Lat:</span> {{location_form.latitude}} <span class="lat_long">Long:</span> {{ location_form.longitude}}</td>
 			</tr>
 		</table>
