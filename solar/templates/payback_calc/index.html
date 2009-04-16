@@ -4,6 +4,13 @@
 
 {% block scripts %}
 <script type="text/javascript">
+
+var id_peak_power_output = new LiveValidation('id_peak_power_output');
+id_peak_power_output.add( Validate.Numericality);
+
+var id_installation_price = new LiveValidation('id_installation_price');
+id_installation_price.add( Validate.Numericality);
+
 function disable_unused_locations() {
 	button_lookup = {
 		"#loc_choice_cs"  : ["#id_city", "#id_state"], 
