@@ -5,6 +5,7 @@ from formdef import *
 from solar.payback_calc.srlocat_wrapper import avg_sunlight
 from solar.payback_calc.hostip import *
 from solar.payback_calc.avg_cost import avg_cost
+from solar.payback_calc.do_calc_payback import *
 
 import datetime
 
@@ -150,24 +151,13 @@ def calc_payback(request):
             * (float(cost)/float(usage))
         i+=1
 
-    # calculate payback time, taking inflation into account
     inf_rate = 1.06 # 6% inflation yearly -> more expensive utilities, so more money saved
-    amount_paid_back = 0
-
-    # first find years
-    payback_years = 0
-    yearly_amount_saved_adj = yearly_amount_saved
-	
-    while float(amount_paid_back) < float(installation_price):
-        amount_paid_back += yearly_amount_saved_adj
-        yearly_amount_saved_adj *= inf_rate
-        payback_years += 1
-
-    # dirty hack!!!
-    payback_time = payback_years + (float(amount_paid_back) - float(installation_price))/yearly_amount_saved_adj
-
-    # Calculate payback time (no inflation)
-    #payback_time = float(installation_price) / yearly_amount_saved
+    # can possibly get inflation rate from "advanced options panel"
+    
+    # calculate payback time, taking inflation into account (set inf_rate to 0 for no inflation)
+    payback_time = calc_infl_payback_time(installation_price, yearly_amount_saved, inf_rate)
+    
+    # calculations done, format output data -------------------------------------------------------------
     
     output_data = {}
     output_data.update(system_form.cleaned_data)

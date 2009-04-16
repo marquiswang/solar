@@ -329,7 +329,7 @@ def zip_to_latlng(zip_code):
     zip_to_latlng: Looks up the latitude and longitude of a zip code.
 
     Outputs a tuple in (lat, lng) form.
-    Returns False is no such zip is found.
+    Returns False if no such zip is found.
     """
     zip_records = models.ZipCode.objects.filter(zip_code = zip_code)
     
