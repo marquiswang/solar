@@ -45,25 +45,25 @@ $(document).ready(function(){
 	
 	
 	// livevalidation stuff... goes here?
-	var id_peak_power_output = new LiveValidation('id_peak_power_output',{ validMessage: "OK", wait: 500 });
+	var id_peak_power_output = new LiveValidation('id_peak_power_output',{ validMessage: "✓", wait: 500 });
 	id_peak_power_output.add( Validate.Numericality);
-	id_peak_power_output.add( Validate.Presence, { failureMessage: "required field" } );
+	id_peak_power_output.add( Validate.Presence, { failureMessage: "x" } );
 
-	var id_installation_price = new LiveValidation('id_installation_price',{ validMessage: "OK", wait: 500 });
+	var id_installation_price = new LiveValidation('id_installation_price',{ validMessage: "✓", wait: 500 });
 	id_installation_price.add( Validate.Numericality);
-	id_installation_price.add( Validate.Presence, { failureMessage: "required field" } );
+	id_installation_price.add( Validate.Presence, { failureMessage: "x" } );
 	
-	var id_zip_code = new LiveValidation('id_zip_code',{ validMessage: "OK", wait: 500 });
-	id_zip_code.add( Validate.Numericality, { minimum: 0, maximum: 99999, failureMessage: "invalid ZIP"});
-	id_zip_code.add( Validate.Presence, { failureMessage: "required field" } );
+	var id_zip_code = new LiveValidation('id_zip_code',{ validMessage: "✓", wait: 500 });
+	id_zip_code.add( Validate.Numericality, { minimum: 0, maximum: 99999, failureMessage: "x"});
+	id_zip_code.add( Validate.Presence, { failureMessage: "x" } );
 	
-	var id_latitude = new LiveValidation('id_latitude',{ validMessage: "", wait: 500 });
-	id_latitude.add( Validate.Numericality, { minimum: -360, maximum: 360, failureMessage: " "});
-	id_latitude.add( Validate.Presence, { failureMessage: "" } );
+	var id_latitude = new LiveValidation('id_latitude',{ validMessage: "✓", wait: 500 });
+	id_latitude.add( Validate.Numericality, { minimum: -360, maximum: 360, failureMessage: "x"});
+	id_latitude.add( Validate.Presence, { failureMessage: "x" } );
 	
-	var id_longitude = new LiveValidation('id_longitude',{ validMessage: "", wait: 500 });
-	id_longitude.add( Validate.Numericality, { minimum: -360, maximum: 360, failureMessage: " "});
-	id_longitude.add( Validate.Presence, { failureMessage: "" } );
+	var id_longitude = new LiveValidation('id_longitude',{ validMessage: "✓", wait: 500 });
+	id_longitude.add( Validate.Numericality, { minimum: -360, maximum: 360, failureMessage: "x"});
+	id_longitude.add( Validate.Presence, { failureMessage: "x" } );
 });    
 </script>
 {% endblock %}
