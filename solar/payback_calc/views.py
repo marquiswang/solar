@@ -94,6 +94,11 @@ def calc_payback(request):
         to the relevant logic and should assemble the response into a response
         using the response.html template at templates/response.html.
     """
+    def debug(err):
+        erroroutput = open("/home/sam/solar2009/solar/payback_calc/debug.err", 'a')
+        erroroutput.write(err+"\n")
+        erroroutput.close()
+
      # Check to make sure a form has been submitted...
     if request.method != 'POST':
         return render_to_response('error.html', {'error_message' : 'No form submitted'})
@@ -152,6 +157,28 @@ def calc_payback(request):
         i+=1
 
     inf_rate = 1.06 # 6% inflation yearly -> more expensive utilities, so more money saved
+
+    amount_paid_back = 0
+
+    # first find years
+    payback_years = 0
+    yearly_amount_saved_adj = yearly_amount_saved
+    
+    # javascript array for the graph
+    graph_entries = []
+	
+    while float(amount_paid_back) < float(installation_price):
+        amount_paid_back += yearly_amount_saved_adj
+        yearly_amount_saved_adj *= inf_rate
+        payback_years += 1
+        graph_entries += [[payback_years, amount_paid_back]]
+
+    # dirty hack!!!
+    payback_time = payback_years + (float(amount_paid_back) - float(installation_price))/yearly_amount_saved_adj
+
+    # Calculate payback time (no inflation)
+    #payback_time = float(installation_price) / yearly_amount_saved
+
     # can possibly get inflation rate from "advanced options panel"
     
     # calculate payback time, taking inflation into account (set inf_rate to 0 for no inflation)
@@ -167,6 +194,10 @@ def calc_payback(request):
     output_data["lng_str"] = str("%.4f" % lng)+"E" if lng > 0 else str("%.4f" % -lng)+"W"
     output_data["savings"] = str("%.2f" % yearly_amount_saved)
     output_data["payback_time"] = str("%.4f" % payback_time)
+
+    #for the graph
+
+    output_data["payoff_entries"] = graph_entries
     
     if loc_choice != "lat_lng":
         output_data["city"] = city
@@ -183,6 +214,9 @@ def calc_payback(request):
             request.session[data_pt] = location_form.cleaned_data[data_pt]
         for data_pt in costs_form.cleaned_data:
             request.session[data_pt] = costs_form.cleaned_data[data_pt]
+
+    #debug("v4")
+
 
     return render_to_response('response.html', output_data)
 

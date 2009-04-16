@@ -20,4 +20,3 @@ def calc_infl_payback_time(installation_price, yearly_amount_saved, inf_rate):
     payback_time = payback_years + (float(amount_paid_back) - float(installation_price))/yearly_amount_saved
     
     return payback_time
-    

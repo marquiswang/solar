@@ -1,5 +1,7 @@
 {% extends "base.html" %}
-
+{% block scripts %} 
+<script type="text/javascript" src="/media/js/jscharts.js"></script> 
+{% endblock %}
 {% block title %}Solar: Your answer!{% endblock %}
 
 {% block content %}
@@ -31,8 +33,19 @@
 	Energy Savings in One Year: ${{savings}} <br />
 	Payback Time: {{payback_time}} years <br />
 </div>
+
+
+<div id="chartcontainer">Your browser does not support jschart?</div>
+<script type="text/javascript">
+    var myData = new Array( [0,0] {% for yrs, saved in payoff_entries %},[{{yrs}},{{saved}}] {% endfor %}  );
+    var myChart = new JSChart('chartcontainer', 'line');
+    myChart.setDataArray(myData);
+    myChart.setAxisNameX("Time (years)")
+    myChart.setAxisNameY("Savings")
+    myChart.setAxisPaddingLeft(60)
+    myChart.setTitle("Payoff over Time")
+    myChart.draw();
+</script>
+
 {% endblock %}
-			
-				
-			
 
