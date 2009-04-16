@@ -80,6 +80,7 @@ input
     height: 40px;
     background-color: #2f2;
     -moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
 }
 
 #submit_btn:hover

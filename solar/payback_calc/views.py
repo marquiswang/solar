@@ -143,14 +143,31 @@ def calc_payback(request):
     peak_power_output = system_form.cleaned_data['peak_power_output']
     installation_price = system_form.cleaned_data['installation_price']
     
+	
     i = 1
-    yearly_amount_saved = 0
+    yearly_amount_saved = 0 # $ saved by subtraction of generated electricity from total usage
     for (cost, usage) in cost_per_month:
         yearly_amount_saved += (avg_sunlight(lat, lng, today.year-1, i, peak_power_output)/1000)\
             * (float(cost)/float(usage))
         i+=1
 
-    # Calculate payback time
+    # calculate payback time, taking inflation into account
+    #inf_rate = 1.06 # 6% inflation yearly -> more expensive utilities, so more money saved
+    #amount_paid_back = 0
+
+    # first find years
+    #payback_years = 0
+    #yearly_amount_saved_adj = yearly_amount_saved
+	
+    #while amount_paid_back < installation_price:
+    #    amount_paid_back += yearly_amount_saved_adj
+    #    yearly_amount_saved_adj *= inf_rate
+    #    payback_years += 1
+
+    # dirty hack!!!
+    #payback_time = payback_years + float(amount_paid_back - installation_price)/yearly_amount_saved_adj
+
+    # Calculate payback time (no inflation)
     payback_time = float(installation_price) / yearly_amount_saved
     
     output_data = {}
