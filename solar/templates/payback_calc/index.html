@@ -54,16 +54,16 @@ $(document).ready(function(){
 	id_installation_price.add( Validate.Presence, { failureMessage: "required field" } );
 	
 	var id_zip_code = new LiveValidation('id_zip_code',{ validMessage: "OK", wait: 500 });
-	id_installation_price.add( Validate.Numericality, { minimum: 0, maximum: 99999, failureMessage: "invalid ZIP"});
-	id_installation_price.add( Validate.Presence, { failureMessage: "required field" } );
+	id_zip_code.add( Validate.Numericality, { minimum: 0, maximum: 99999, failureMessage: "invalid ZIP"});
+	id_zip_code.add( Validate.Presence, { failureMessage: "required field" } );
 	
 	var id_latitude = new LiveValidation('id_latitude',{ validMessage: "", wait: 500 });
-	id_installation_price.add( Validate.Numericality, { minimum: -360, maximum: 360, failureMessage: ""});
-	id_installation_price.add( Validate.Presence, { failureMessage: "" } );
+	id_latitude.add( Validate.Numericality, { minimum: -360, maximum: 360, failureMessage: " "});
+	id_latitude.add( Validate.Presence, { failureMessage: "" } );
 	
 	var id_longitude = new LiveValidation('id_longitude',{ validMessage: "", wait: 500 });
-	id_installation_price.add( Validate.Numericality, { minimum: -360, maximum: 360, failureMessage: ""});
-	id_installation_price.add( Validate.Presence, { failureMessage: "" } );
+	id_longitude.add( Validate.Numericality, { minimum: -360, maximum: 360, failureMessage: " "});
+	id_longitude.add( Validate.Presence, { failureMessage: "" } );
 });    
 </script>
 {% endblock %}
