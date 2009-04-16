@@ -141,8 +141,7 @@ def calc_payback(request):
 
     # Calculate one year of energy savings and generate an array of cumulative sa
     peak_power_output = system_form.cleaned_data['peak_power_output']
-    installation_price = system_form.cleaned_data['installation_price']
-    
+    installation_price = system_form.cleaned_data['installation_price'] 
 	
     i = 1
     yearly_amount_saved = 0 # $ saved by subtraction of generated electricity from total usage
@@ -159,13 +158,13 @@ def calc_payback(request):
     payback_years = 0
     yearly_amount_saved_adj = yearly_amount_saved
 	
-    while amount_paid_back < installation_price:
+    while float(amount_paid_back) < float(installation_price):
         amount_paid_back += yearly_amount_saved_adj
         yearly_amount_saved_adj *= inf_rate
         payback_years += 1
 
     # dirty hack!!!
-    payback_time = payback_years + float(amount_paid_back - installation_price)/yearly_amount_saved_adj
+    payback_time = payback_years + (float(amount_paid_back) - float(installation_price))/yearly_amount_saved_adj
 
     # Calculate payback time (no inflation)
     #payback_time = float(installation_price) / yearly_amount_saved
