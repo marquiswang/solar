@@ -45,11 +45,13 @@ $(document).ready(function(){
 	
 	
 	// livevalidation stuff... goes here?
-	var id_peak_power_output = new LiveValidation('id_peak_power_output');
+	var id_peak_power_output = new LiveValidation('id_peak_power_output',{ validMessage: "OK", wait: 500 });
 	id_peak_power_output.add( Validate.Numericality);
+	id_peak_power_output.add( Validate.Presence, { failureMessage: "required field" } );
 
-	var id_installation_price = new LiveValidation('id_installation_price');
+	var id_installation_price = new LiveValidation('id_installation_price',{ validMessage: "OK", wait: 500 });
 	id_installation_price.add( Validate.Numericality);
+	id_installation_price.add( Validate.Presence, { failureMessage: "required field" } );
 });    
 </script>
 {% endblock %}
