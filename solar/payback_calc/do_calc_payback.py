@@ -13,7 +13,7 @@ def calc_infl_payback_time(installation_price, yearly_amount_saved, inf_rate):
 
     while float(amount_paid_back) < float(installation_price):
         amount_paid_back += yearly_amount_saved
-        yearly_amount_saved_adj *= inf_rate
+        yearly_amount_saved *= inf_rate
         payback_years += 1
 
     # not entirely accurate, but good enough for our purposes. Would be better to round the second part and give months. 
