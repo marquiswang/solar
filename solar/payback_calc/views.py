@@ -14,19 +14,77 @@ def index(request):
         payback calculator should load.  templates/index.html should have
         the form.
     """
-    city, state, zip_code, lat, lng = ip_to_location(request.META.get('REMOTE_ADDR'))
+    initial_system   = {}
+    initial_location = {}
+    initial_costs    = {}
+    saved_data = ""
+    loc_choice = "city_state"
+    costs_choice = "averages"
     
-    system_form = SystemForm()
-    location_form = LocationForm(initial = \
-        {   'city' : city, 
+    # Get saved state data if exists
+    if 'saved_data' in request.session:
+        saved_data = request.session['saved_data']
+        costs_choice = request.session['costs_choice']
+        loc_choice = request.session['loc_choice']
+        
+        initial_system = {
+            'peak_power_output' : request.session['peak_power_output'], 
+            'installation_price' : request.session['installation_price']
+            }
+        initial_location = {
+            'city' : request.session['city'], 
+            'state' : request.session['state'], 
+            'zip_code' : request.session['zip_code'], 
+            'latitude' : request.session['latitude'], 
+            'longitude' : request.session['longitude']
+            }
+        initial_costs = {
+            'jan_bill' : request.session['jan_bill'],
+            'jan_usage': request.session['jan_usage'],
+            'feb_bill' : request.session['feb_bill'],
+            'feb_usage': request.session['feb_usage'],
+            'mar_bill' : request.session['mar_bill'],
+            'mar_usage': request.session['mar_usage'],
+            'apr_bill' : request.session['apr_bill'],
+            'apr_usage': request.session['apr_usage'],
+            'may_bill' : request.session['may_bill'],
+            'may_usage': request.session['may_usage'],
+            'jun_bill' : request.session['jun_bill'],
+            'jun_usage': request.session['jun_usage'],
+            'jul_bill' : request.session['jul_bill'],
+            'jul_usage': request.session['jul_usage'],
+            'aug_bill' : request.session['aug_bill'],
+            'aug_usage': request.session['aug_usage'],
+            'sep_bill' : request.session['sep_bill'],
+            'sep_usage': request.session['sep_usage'],
+            'oct_bill' : request.session['oct_bill'],
+            'oct_usage': request.session['oct_usage'],
+            'nov_bill' : request.session['nov_bill'],
+            'nov_usage': request.session['nov_usage'],
+            'dec_bill' : request.session['dec_bill'],
+            'dec_usage': request.session['dec_usage']
+        }
+    else:
+        city, state, zip_code, lat, lng = ip_to_location(request.META.get('REMOTE_ADDR'))
+        initial_location = {
+            'city' : city, 
             'state' : state, 
             'zip_code' : zip_code, 
             'latitude' : lat, 
             'longitude' : lng
-        })
-    costs_form = CostsForm()
-    return render_to_response('index.html', {'system_form': system_form, 'location_form': location_form, 'costs_form': costs_form})
+            }
 
+    system_form = SystemForm(initial = initial_system)
+    location_form = LocationForm(initial = initial_location)
+    costs_form = CostsForm(initial = initial_costs)
+    return render_to_response('index.html', {
+        'system_form': system_form, 
+        'location_form': location_form, 
+        'costs_form': costs_form,
+        'costs_choice': costs_choice,
+        'loc_choice' : loc_choice,
+        'saved_data' : saved_data
+        })
 
 def calc_payback(request):
     """
@@ -43,7 +101,7 @@ def calc_payback(request):
     system_form = SystemForm(request.POST)
     location_form = LocationForm(request.POST)
     costs_form = CostsForm(request.POST)
-    
+
     # All validation rules pass
     if not system_form.is_valid() or not location_form.is_valid() or not costs_form.is_valid():
         return render_to_response('error.html', {'error_message' : 'Invalid form'})
@@ -81,7 +139,7 @@ def calc_payback(request):
     else:
         return render_to_response('error.html', {'error_message' : 'You didn\'t select a cost choice.'})
 
-    # Calculate one year of energy savings
+    # Calculate one year of energy savings and generate an array of cumulative sa
     peak_power_output = system_form.cleaned_data['peak_power_output']
     installation_price = system_form.cleaned_data['installation_price']
     
@@ -107,7 +165,19 @@ def calc_payback(request):
     if loc_choice != "lat_lng":
         output_data["city"] = city
         output_data["state"] = state
-    
+
+    if ('save' in request.POST):
+        request.session["saved_data"] = "checked"
+        request.session["costs_choice"] = costs_choice
+        request.session["loc_choice"] = loc_choice
+        
+        for data_pt in system_form.cleaned_data:
+            request.session[data_pt] = system_form.cleaned_data[data_pt]
+        for data_pt in location_form.cleaned_data:
+            request.session[data_pt] = location_form.cleaned_data[data_pt]
+        for data_pt in costs_form.cleaned_data:
+            request.session[data_pt] = costs_form.cleaned_data[data_pt]
+
     return render_to_response('response.html', output_data)
 
     

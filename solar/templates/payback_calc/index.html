@@ -60,15 +60,15 @@ $(document).ready(function(){
 		<table id="loc_config">
 			<tr> <td colspan="3">We need to know where are you to provide accurate estimates. Please select one of these options for determining your location and fill in the corresponding field.</td> </tr>
 			<tr>
-				<th><input id="loc_choice_cs" type="radio" name="loc_choice" value="city_state" checked></th>
+				<th><input id="loc_choice_cs" type="radio" name="loc_choice" value="city_state" {% ifequal loc_choice "city_state" %} checked {% endifequal %}></th>
 				<td>City/State: {{ location_form.city}} {{ location_form.state}}</td>
 			</tr>
 			<tr>
-				<th><input id="loc_choice_zip" type="radio" name="loc_choice" value="zip_code"></th>
+				<th><input id="loc_choice_zip" type="radio" name="loc_choice" value="zip_code" {% ifequal loc_choice "zip_code" %} checked {% endifequal %} ></th>
 				<td>ZIP: {{ location_form.zip_code}}</td>
 			</tr>
 			<tr>
-				<th><input id="loc_choice_ll" type="radio" name="loc_choice" value="lat_lng"></th>
+				<th><input id="loc_choice_ll" type="radio" name="loc_choice" value="lat_lng" {% ifequal loc_choice "lat_lng" %} checked {% endifequal %}></th>
 				<td>Coordinates: <span class="lat_long">Lat:</span> {{location_form.latitude}} <span class="lat_long">Long:</span> {{ location_form.longitude}}</td>
 			</tr>
 		</table>
@@ -79,11 +79,11 @@ $(document).ready(function(){
 		<table id="cost_config">
 			<tr> <td colspan="3"> We can either use averages for power costs and usage in your area, or your own power bill data. </td> </tr>
 			<tr>
-				<th><input id="costs_choice_avg" type="radio" name="costs_choice" value="averages" checked></th>
+				<th><input id="costs_choice_avg" type="radio" name="costs_choice" value="averages" {% ifequal costs_choice "averages" %} checked {% endifequal %}></th>
 				<td>Use location averages for pricing (less accurate)</td>
 			</tr>
 			<tr>
-				<th><input id="costs_choice_spec" type="radio" name="costs_choice" value="specified"></th>
+				<th><input id="costs_choice_spec" type="radio" name="costs_choice" value="specified" {% ifequal costs_choice "specified" %} checked {% endifequal %}></th>
 				<td>Input your own power bill data for the last year</td>
 			</tr>
 		</table>
@@ -158,7 +158,7 @@ $(document).ready(function(){
 
 	<h3> Finalize </h3>
 	<div id="finalize">
-		<span style="float: left;"><input type="checkbox" name="save" /> Save my data for when I come back</span>
+		<span style="float: left;"><input type="checkbox" name="save" {{saved_data}}/> Save my data for when I come back (cookies required)</span>
 		<span style="float: right;"><input id="submit_btn" type="submit" value="Calculate!" /></span> 
 		<br style="clear: both;" />
 	</div>
