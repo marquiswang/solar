@@ -44,7 +44,7 @@ $(document).ready(function(){
 	});
 	
 	
-	// livevalidation stuff... goes here?
+	// LiveValidation code for client side error checking
 	var id_peak_power_output = new LiveValidation('id_peak_power_output',{ validMessage: "✓", wait: 500 });
 	id_peak_power_output.add( Validate.Numericality);
 	id_peak_power_output.add( Validate.Presence, { failureMessage: "x" } );
@@ -55,6 +55,7 @@ $(document).ready(function(){
 	
 	var id_zip_code = new LiveValidation('id_zip_code',{ validMessage: "✓", wait: 500 });
 	id_zip_code.add( Validate.Numericality, { minimum: 0, maximum: 99999, failureMessage: "x"});
+	id_zip_code.add( Validate.Length, { is: 5, failureMessage: "x"} );
 	id_zip_code.add( Validate.Presence, { failureMessage: "x" } );
 	
 	var id_latitude = new LiveValidation('id_latitude',{ validMessage: "✓", wait: 500 });
@@ -74,7 +75,20 @@ $(document).ready(function(){
 	<h3>Configure Solar Panels</h3>
 	<div>
 		<table id="system_config">
-		{{ system_form.as_table }}
+			<tr>
+				<th> <label for="id_peak_power_output">Peak power output (W):</label> </th>
+				<td>
+					<input type="text" name="peak_power_output" {% if peak_power_invalid %}class="LV_invalid_field"{% endif %} id="id_peak_power_output" />
+					{% if peak_power_invalid %}<span class=" LV_validation_message LV_invalid">x</span>{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<th> <label for="id_installation_price">Installation price:</label> </th>
+				<td>
+					<input type="text" name="installation_price" {% if price_invalid %}class="LV_invalid_field"{% endif %} id="id_installation_price" />
+					{% if price_invalid %}<span class=" LV_validation_message LV_invalid">x</span>{% endif %}
+				</td>
+			</tr>
 		</table>
 	</div>
 
@@ -83,11 +97,11 @@ $(document).ready(function(){
 		<table id="loc_config">
 			<tr> <td colspan="3">We need to know where are you to provide accurate estimates. Please select one of these options for determining your location and fill in the corresponding field.</td> </tr>
 			<tr>
-				<th><input id="loc_choice_cs" type="radio" name="loc_choice" value="city_state" {% ifequal loc_choice "city_state" %} checked {% endifequal %}></th>
+				<th><input id="loc_choice_cs" type="radio" name="loc_choice" {% if city_state_invalid %}class="LV_invalid_field"{% endif %}value="city_state" {% ifequal loc_choice "city_state" %} checked {% endifequal %}></th>
 				<td>City/State: {{ location_form.city}} {{ location_form.state}}</td>
 			</tr>
 			<tr>
-				<th><input id="loc_choice_zip" type="radio" name="loc_choice" value="zip_code" {% ifequal loc_choice "zip_code" %} checked {% endifequal %} ></th>
+				<th><input id="loc_choice_zip" type="radio" name="loc_choice" {% if zip_code_invalid %}class="LV_invalid_field"{% endif %} value="zip_code" {% ifequal loc_choice "zip_code" %} checked {% endifequal %} ></th>
 				<td>ZIP: {{ location_form.zip_code}}</td>
 			</tr>
 			<tr>
