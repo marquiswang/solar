@@ -2,10 +2,10 @@ from solar.payback_calc.srlocat_wrapper import avg_sunlight
 from solar.payback_calc.hostip import *
 from solar.payback_calc.avg_cost import avg_cost
 
-def calc_infl_payback_time(installation_price, yearly_amount_saved, inf_rate):
+def calc_infl_payback_time(installation_price, month_savings, inf_rate):
     """
-        @param calc_infl_payback_time calculate the payback time taking
-            inflation into account
+        @param installation_price price of installation
+        @param monthly_savings list of tuples representing (month, savings_for_month)
     
         Returns a tuple of float-valued estimated payback time and a list of
             time, payback_so_far pairs (for use in constructing a graph)
@@ -15,24 +15,28 @@ def calc_infl_payback_time(installation_price, yearly_amount_saved, inf_rate):
     payback_years = 0
 
     data_entries = []
+    month = 0
+    acced_infl_rate = 1
 
     while float(amount_paid_back) < float(installation_price):
-        amount_paid_back += yearly_amount_saved
-        yearly_amount_saved *= inf_rate
-        payback_years += 1
+        (_, savings_for_month) = month_savings[month%len(month_savings)]
+        amount_paid_back += (savings_for_month * acced_infl_rate)
+        if (month % 12 == 0 and month != 0): acced_infl_rate *= inf_rate
+        payback_years += 1.0/12.0
         data_entries += [[payback_years, amount_paid_back]]
+        month += 1
 
     # not entirely accurate, but good enough for our purposes. Would be better
     # to round the second part and give months. 
-    payback_time = payback_years + abs(float(amount_paid_back) -
-        float(installation_price))/yearly_amount_saved
+    payback_time = payback_years #payback_years + abs(float(amount_paid_back) -
+        #float(installation_price))/yearly_amount_saved
 
-    data_entries[-1] = [payback_time, installation_price]
+    #data_entries[-1] = [payback_time, installation_price]
     
     return payback_time, data_entries
 
 
-def calc_yearly_savings(cost_per_month, lat, lng, today, \
+def calc_monthly_savings(cost_per_month, lat, lng, today, \
                         peak_power_output, tiers = 0):
     """
         @param cost_per_month: List of tuples of (cost, usage) for months 
@@ -42,7 +46,7 @@ def calc_yearly_savings(cost_per_month, lat, lng, today, \
     """
 
     month = 1
-    yearly_amount_saved = 0 # $ saved by subtraction of generated 
+    monthly_savings = [] # $ saved by subtraction of generated 
                             # electricity from total usage
     for (cost, usage) in cost_per_month:
         amount_generated = \
@@ -62,12 +66,12 @@ def calc_yearly_savings(cost_per_month, lat, lng, today, \
                     cost_this_month += cost_per_watt * \
                                        (max_usage - accounted_for)
                     accounted_for = max_usage
-            yearly_amount_saved += cost - cost_this_month
+            monthly_savings += [(month, cost - cost_this_month)]
         # Otherwise, just use the ratio of cost to usage from prior
         # information to get a rate.
         else:
-            yearly_amount_saved += amount_generated * \
-                (float(cost)/float(usage))
+            monthly_savings += [(month, amount_generated * \
+                (float(cost)/float(usage)))]
         month+=1
-    return yearly_amount_saved
+    return monthly_savings
 
