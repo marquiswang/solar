@@ -168,7 +168,7 @@ def calc_payback(request):
     buyback = 0
        
     if ('advanced_control' in request.POST):
-        if (advanced_form.cleaned_data['tier_price_1'] != None):
+        #if (advanced_form.cleaned_data['tier_price_1'] != None):
             #tiers = advanced_form.tier_data()
         if (advanced_form.cleaned_data['buyback_price'] != None):
             buyback = float(advanced_form.cleaned_data['buyback_price'])
