@@ -125,10 +125,16 @@ def calc_payback(request):
     elif loc_choice == "city_state":
         city = location_form.cleaned_data['city']
         state = location_form.cleaned_data['state']
-        lat, lng = city_to_latlng(city, state)
+        citydata = city_to_latlng(city, state)
+        if citydata == False:
+             return render_to_response('error.html', {'error_message' : city + ", "+state + " not found"})
+        lat, lng = citydata
     elif loc_choice == "zip_code":
         zip_code = location_form.cleaned_data['zip_code']
-        city, state, lat, lng = zip_to_location(zip_code)
+        zipdata = zip_to_location(zip_code)
+        if zipdata == False:
+             return render_to_response('error.html', {'error_message' : "Zip code "+ zip_code + " not found"})
+        city, state, lat, lng = zipdata
     else:
         return render_to_response('error.html', {
             'error_message': "You didn't select a location choice.",
@@ -138,7 +144,10 @@ def calc_payback(request):
     cost_per_month = []
     costs_choice = request.POST['costs_choice']
     
-    if (costs_choice == "averages" and loc_choice != "lat_lng"):
+    if (costs_choice == "averages" and loc_choice == "lat_lng"):
+        return render_to_response('error.html', {'error_message' : 'Location averages with latitude and longitude are not supported'})
+
+    if (costs_choice == "averages"):
         cost_per_month = [avg_cost(state)]*12
     elif (costs_choice == "specified"):
         cost_per_month = costs_form.month_data()
