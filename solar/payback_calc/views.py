@@ -210,7 +210,9 @@ def calc_payback(request):
     # come up with an explanation for the user for the calculation
     user_explanation = "Your payback period was computed using "
     if costs_choice == "averages":
-        user_explanation+="average price information from your state"
+        user_explanation+="average price information from your state ("
+        user_explanation+=str("%.2f" % (cost_per_month[0][0]/cost_per_month[0][1]))
+        user_explanation+=" $/watt) "
     else:
         user_explanation+="your power bill information over 12 months"
     if tiers:
