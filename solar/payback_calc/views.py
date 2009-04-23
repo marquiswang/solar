@@ -159,6 +159,7 @@ def calc_payback(request):
     installation_price = system_form.cleaned_data['installation_price'] 
 
     # ready to take tier data
+    tiers = 0;
     yearly_amount_saved = calc_yearly_savings(cost_per_month, lat, lng, today,\
                                               peak_power_output)
 
@@ -169,6 +170,9 @@ def calc_payback(request):
     # calculate payback time, taking inflation into account (set inf_rate to 0 for no inflation)
     payback_time, graph_entries = \
         calc_infl_payback_time(installation_price, yearly_amount_saved, inf_rate)
+
+
+
     
     # calculations done, format output data -------------------------------------------------------------
     
@@ -201,6 +205,21 @@ def calc_payback(request):
         for data_pt in costs_form.cleaned_data:
             request.session[data_pt] = costs_form.cleaned_data[data_pt]
 
+    # come up with an explanation for the user for the calculation
+    user_explanation = "Your payback period was computed using "
+    if costs_choice == "averages":
+        user_explanation+="average price information from your state"
+    else:
+        user_explanation+="your power bill information over 12 months"
+    if tiers:
+        user_explanation+=" along with tiered pricing information.  "
+    else:
+        user_explanation+=".  "
+    if inf_rate != 0:
+        user_explanation+="The calculation also assumes that your "
+        user_explanation+="power costs will increase at a annual"
+        user_explanation+=" rate of "+str(inf_rate)+"%."
+    output_data["user_explanation"] = user_explanation
 
     return render_to_response('response.html', output_data)
 
