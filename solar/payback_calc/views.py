@@ -148,41 +148,18 @@ def calc_payback(request):
     # Calculate one year of energy savings and generate an array of cumulative sa
     peak_power_output = system_form.cleaned_data['peak_power_output']
     installation_price = system_form.cleaned_data['installation_price'] 
-	
-    i = 1
-    yearly_amount_saved = 0 # $ saved by subtraction of generated electricity from total usage
-    for (cost, usage) in cost_per_month:
-        yearly_amount_saved += (avg_sunlight(lat, lng, today.year-1, i, peak_power_output)/1000)\
-            * (float(cost)/float(usage))
-        i+=1
 
-    inf_rate = 1.06 # 6% inflation yearly -> more expensive utilities, so more money saved
-
-    amount_paid_back = 0
-
-    # first find years
-    payback_years = 0
-    yearly_amount_saved_adj = yearly_amount_saved
-    
-    # javascript array for the graph
-    graph_entries = []
-	
-    while float(amount_paid_back) < float(installation_price):
-        amount_paid_back += yearly_amount_saved_adj
-        yearly_amount_saved_adj *= inf_rate
-        payback_years += 1
-        graph_entries += [[payback_years, amount_paid_back]]
-
-    # dirty hack!!!
-    payback_time = payback_years + (float(amount_paid_back) - float(installation_price))/yearly_amount_saved_adj
-
-    # Calculate payback time (no inflation)
-    #payback_time = float(installation_price) / yearly_amount_saved
+    # ready to take tier data
+    yearly_amount_saved = calc_yearly_savings(cost_per_month, lat, lng, today,\
+                                              peak_power_output)
 
     # can possibly get inflation rate from "advanced options panel"
+    inf_rate = 1.06 # 6% inflation yearly -> more expensive utilities, so more money saved
+
     
     # calculate payback time, taking inflation into account (set inf_rate to 0 for no inflation)
-    payback_time = calc_infl_payback_time(installation_price, yearly_amount_saved, inf_rate)
+    payback_time, graph_entries = \
+        calc_infl_payback_time(installation_price, yearly_amount_saved, inf_rate)
     
     # calculations done, format output data -------------------------------------------------------------
     
@@ -214,8 +191,6 @@ def calc_payback(request):
             request.session[data_pt] = location_form.cleaned_data[data_pt]
         for data_pt in costs_form.cleaned_data:
             request.session[data_pt] = costs_form.cleaned_data[data_pt]
-
-    #debug("v4")
 
 
     return render_to_response('response.html', output_data)
