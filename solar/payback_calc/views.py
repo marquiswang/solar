@@ -163,7 +163,7 @@ def calc_payback(request):
     # ready to take tier data
     tiers = 0;
     savings_per_month = calc_monthly_savings(cost_per_month, lat, lng, today,\
-                                              peak_power_output, buyback_price = 0.01)
+                                              peak_power_output)
 
     yearly_amount_saved = reduce(lambda x,(_,y):x+y, [0]+savings_per_month)
 
