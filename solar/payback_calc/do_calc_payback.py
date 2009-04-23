@@ -10,7 +10,6 @@ def calc_infl_payback_time(installation_price, yearly_amount_saved, inf_rate):
         Returns a tuple of float-valued estimated payback time and a list of
             time, payback_so_far pairs (for use in constructing a graph)
 
-        This function actually has an error, is clearly giving silly answers.
     """
     amount_paid_back = 0
     payback_years = 0
@@ -25,10 +24,10 @@ def calc_infl_payback_time(installation_price, yearly_amount_saved, inf_rate):
 
     # not entirely accurate, but good enough for our purposes. Would be better
     # to round the second part and give months. 
-    payback_time = payback_years + (float(amount_paid_back) -
+    payback_time = payback_years + abs(float(amount_paid_back) -
         float(installation_price))/yearly_amount_saved
 
-    data_entries += [[payback_time, installation_price]]
+    data_entries[-1] = [payback_time, installation_price]
     
     return payback_time, data_entries
 
