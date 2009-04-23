@@ -163,7 +163,7 @@ def calc_payback(request):
     # ready to take tier data
     tiers = 0;
     savings_per_month = calc_monthly_savings(cost_per_month, lat, lng, today,\
-                                              peak_power_output)
+                                              peak_power_output, buyback_price = 0.01)
 
     yearly_amount_saved = reduce(lambda x,(_,y):x+y, [0]+savings_per_month)
 
@@ -214,7 +214,7 @@ def calc_payback(request):
     if costs_choice == "averages":
         user_explanation+="average price information from your state ("
         user_explanation+=str("%.2f" % (cost_per_month[0][0]/cost_per_month[0][1]))
-        user_explanation+=" $/watt) "
+        user_explanation+=" $/kwh) "
     else:
         user_explanation+="your power bill information over 12 months"
     if tiers:

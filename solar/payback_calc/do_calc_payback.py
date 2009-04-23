@@ -37,7 +37,7 @@ def calc_infl_payback_time(installation_price, month_savings, inf_rate):
 
 
 def calc_monthly_savings(cost_per_month, lat, lng, today, \
-                        peak_power_output, tiers = 0):
+                        peak_power_output, tiers = 0, buyback_price = 0):
     """
         @param cost_per_month: List of tuples of (cost, usage) for months 
             (Jan first)
@@ -54,7 +54,13 @@ def calc_monthly_savings(cost_per_month, lat, lng, today, \
 
         # If we have tiered pricing, we should calculate starting with the
         # lowest tier and working up.
-        if tiers:
+        if (amount_generated > usage):
+            if buyback_price:
+                monthly_savings += \
+                    [(month, cost+(amount_generated*buyback_price))]
+            else:   
+                monthly_savings += [(month, cost)]
+        elif tiers:
             cost_this_month = 0
             accounted_for = 0
             for (max_usage, cost_per_watt) in tiers:
