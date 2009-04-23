@@ -299,10 +299,10 @@ def ip_to_location(ip_str):
    
     zip_records = models.ZipCode.objects.filter(city = string.upper(city), state_prefix = state)
 
-    if zip_records == 0:
+    if len(zip_records) == 0:
         return ("", "", None, None, None)
-
-    zip_code = zip_records[0].zip_code
+    else:
+        zip_code = zip_records[0].zip_code
         
     return (unquote(city), unquote(state), zip_code, lat, lng)
     
