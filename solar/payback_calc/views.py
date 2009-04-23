@@ -145,14 +145,16 @@ def calc_payback(request):
     costs_choice = request.POST['costs_choice']
     
     if (costs_choice == "averages" and loc_choice == "lat_lng"):
-        return render_to_response('error.html', {'error_message' : 'Location averages with latitude and longitude are not supported'})
+        return render_to_response('error.html', {'error_message' : \
+        'Location averages with latitude and longitude are not supported.  Please enter a City/State or ZIP.'})
 
     if (costs_choice == "averages"):
         cost_per_month = [avg_cost(state)]*12
     elif (costs_choice == "specified"):
         cost_per_month = costs_form.month_data()
     else:
-        return render_to_response('error.html', {'error_message' : 'You didn\'t select a cost choice.'})
+        return render_to_response('error.html', {'error_message' : \
+            'Please select either Location Averages or Power Bill data.'})
 
     # Calculate one year of energy savings and generate an array of cumulative sa
     peak_power_output = system_form.cleaned_data['peak_power_output']
