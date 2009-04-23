@@ -118,3 +118,39 @@ class CostsForm(forms.Form):
                   "sep", "oct", "nov", "dec"]:
             answer += [(self.cleaned_data[i+"_bill"], self.cleaned_data[i+"_usage"])]
         return answer
+        
+class AdvancedForm(forms.Form):
+    buyback_price = forms.DecimalField(required=False)
+    inflation_rate = forms.DecimalField(required=False)
+    
+    tier_price_1 = forms.DecimalField(required=False)
+    tier_limit_1 = forms.IntegerField(required=False)
+    tier_price_2  = forms.DecimalField(required=False)
+    tier_limit_2 = forms.IntegerField(required=False)
+    tier_price_3  = forms.DecimalField(required=False)
+    tier_limit_3 = forms.IntegerField(required=False)
+    tier_price_4  = forms.DecimalField(required=False)
+    tier_limit_4 = forms.IntegerField(required=False)
+    tier_price_5  = forms.DecimalField(required=False)
+    tier_limit_5 = forms.IntegerField(required=False)
+    tier_price_6  = forms.DecimalField(required=False)
+    tier_limit_6 = forms.IntegerField(required=False)
+    
+    tiers = \
+    [
+    (tier_price_1, tier_limit_1),
+    (tier_price_2, tier_limit_2),
+    (tier_price_3, tier_limit_3),
+    (tier_price_4, tier_limit_4),
+    (tier_price_5, tier_limit_5),
+    (tier_price_6, tier_limit_6)
+    ]
+    
+    def tier_data(self):
+        answer = []
+        for i in ['1','2','3','4','5','6']:
+            if (self.cleaned_data["tier_price_"+i] == None): # if there's no more tiered pricing info
+                break
+            answer += [(self.cleaned_data["tier_price_"+i], self.cleaned_data["tier_limit_"+i])]
+        return answer
+    

@@ -57,7 +57,7 @@ $(document).ready(function(){
 	$('#loc_config').find(':radio').change(function(event){
 		disable_unused_locations()
 	})
-	
+		
 	// Hide power bill input table if its not being used
 	if ($("#costs_choice_spec").is(":checked") == false)
 		$("#power_bill").hide()
@@ -68,9 +68,19 @@ $(document).ready(function(){
 	});
 	$("#costs_choice_spec").change(function(event){
 		$("#power_bill").slideDown("slow")
+	});	
+
+	// on pageload, set these how we want them
+	if ($("#advanced_control").is(":checked") == false)
+	    $("#advanced").hide();
+	
+
+	// show/hide the advanced pane	
+	$('#advanced_control').click(function() {
+	    $('#advanced').toggle(50);
+	    $("#advanced_control").toggleCheckboxes();
+	    return false;
 	});
-	
-	
 });    
 </script>
 {% endblock %}
@@ -198,6 +208,68 @@ $(document).ready(function(){
 			</tr>
 		</table>
 	</div>	
+
+	<h3> Advanced <span> <input type="checkbox" id="advanced_control" name="advanced_control" /> (check to activate)</span></h3>
+	<div id="advanced">
+	    <table>
+	        <tr>
+	            <th></th>
+	            <th></th>
+	            <th width="80px"></th>
+	            <th></th>
+	            <th>Tier price (cpwh)</th>
+	            <th>Tier limit (wh)</th>
+	        </tr>
+	        <tr>
+	            <td> </td>
+	            <td></td>
+	            <td></td>
+	            <td>1</td>
+	            <td><input type="text" name="tier_price_1" id="id_tier_price_1" /></td>
+	            <td><input type="text" name="tier_limit_1" id="id_tier_limit_1" /></td>
+	        </tr>
+	        <tr>
+	            <td> Buyback price (cpwh):</td>
+	            <td><input type="text" name="buyback_price" id="id_buyback_price" /></td>
+	            <td></td>
+	            <td>2</td>
+	            <td><input type="text" name="tier_price_2" id="id_tier_price_2" /></td>
+	            <td><input type="text" name="tier_limit_2" id="id_tier_limit_2" /></td>
+	        </tr>
+	        <tr>
+	            <td>Inflation rate (%):</td>
+	            <td><input type="text" name="inflation_rate" id="id_inflation_rate" /></td>
+	            <td></td>
+	            <td>3</td>
+	            <td><input type="text" name="tier_price_3" id="id_tier_price_3" /></td>
+	            <td><input type="text" name="tier_limit_3" id="id_tier_limit_3" /></td>
+	        </tr>
+	        <tr>
+	            <td></td>
+	            <td></td>
+	            <td></td>
+	            <td>4</td>
+	            <td><input type="text" name="tier_price_4" id="id_tier_price_4" /></td>
+	            <td><input type="text" name="tier_limit_4" id="id_tier_limit_4" /></td>
+	        </tr>
+	        <tr>
+	            <td></td>
+	            <td></td>
+	            <td></td>
+	            <td>5</td>
+	            <td><input type="text" name="tier_price_5" id="id_tier_price_5" /></td>
+	            <td><input type="text" name="tier_limit_5" id="id_tier_limit_5" /></td>
+	        </tr>
+	        <tr>
+	            <td></td>
+	            <td></td>
+	            <td></td>
+	            <td>6</td>
+	            <td><input type="text" name="tier_price_6" id="id_tier_price_6" /></td>
+	            <td><input type="text" name="tier_limit_6" id="id_tier_limit_6" /></td>
+	        </tr>
+	    </table>
+	</div>
 
 	<h3> Finalize </h3>
 	<div id="finalize">

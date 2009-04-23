@@ -78,10 +78,12 @@ def index(request):
     system_form = SystemForm(initial = initial_system)
     location_form = LocationForm(initial = initial_location)
     costs_form = CostsForm(initial = initial_costs)
+    advanced_form = AdvancedForm()
     return render_to_response('index.html', {
         'system_form': system_form, 
         'location_form': location_form, 
         'costs_form': costs_form,
+        'advanced_form': advanced_form,
         'costs_choice': costs_choice,
         'loc_choice' : loc_choice,
         'saved_data' : saved_data
@@ -107,9 +109,10 @@ def calc_payback(request):
     system_form = SystemForm(request.POST)
     location_form = LocationForm(request.POST)
     costs_form = CostsForm(request.POST)
+    advanced_form = AdvancedForm(request.POST)
 
     # All validation rules pass
-    if not system_form.is_valid() or not location_form.is_valid() or not costs_form.is_valid():
+    if not system_form.is_valid() or not location_form.is_valid() or not costs_form.is_valid() or not advanced_form.is_valid():
         return render_to_response('error.html', {'error_message' : 'Invalid form'})
     
     one_day = datetime.timedelta(days=1)
@@ -161,23 +164,31 @@ def calc_payback(request):
     installation_price = system_form.cleaned_data['installation_price'] 
 
     # ready to take tier data
-    tiers = 0;
+    tiers = 0
+    buyback = 0
+       
+    if ('advanced_control' in request.POST):
+        if (advanced_form.cleaned_data['tier_price_1'] != None):
+            #tiers = advanced_form.tier_data()
+        if (advanced_form.cleaned_data['buyback_price'] != None):
+            buyback = float(advanced_form.cleaned_data['buyback_price'])
+    
     savings_per_month = calc_monthly_savings(cost_per_month, lat, lng, today,\
-                                              peak_power_output)
+                                              peak_power_output, tiers, buyback)
 
     yearly_amount_saved = reduce(lambda x,(_,y):x+y, [0]+savings_per_month)
 
     # can possibly get inflation rate from "advanced options panel"
     inf_rate = 1.06 # 6% inflation yearly -> more expensive utilities, so more money saved
 
-    
+    if ('advanced_control' in request.POST):
+        if (advanced_form.cleaned_data['inflation_rate'] != None):
+            inf_rate = 1 + float(advanced_form.cleaned_data['inflation_rate'])*0.01
+        
     # calculate payback time, taking inflation into account (set inf_rate to 0 for no inflation)
     payback_time, graph_entries = \
         calc_infl_payback_time(installation_price, savings_per_month, inf_rate)
 
-
-
-    
     # calculations done, format output data -------------------------------------------------------------
     
     output_data = {}
@@ -224,7 +235,7 @@ def calc_payback(request):
     if inf_rate != 0:
         user_explanation+="The calculation also assumes that your "
         user_explanation+="power costs will increase at a annual"
-        user_explanation+=" rate of "+str(inf_rate)+"%."
+        user_explanation+=" rate of "+str((inf_rate-1)*100)+"%."
     output_data["user_explanation"] = user_explanation
 
     return render_to_response('response.html', output_data)
