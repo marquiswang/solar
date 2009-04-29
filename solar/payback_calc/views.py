@@ -18,9 +18,11 @@ def index(request):
     initial_system   = {}
     initial_location = {}
     initial_costs    = {}
+    initial_advanced = {}
     saved_data = ""
     loc_choice = "city_state"
     costs_choice = "averages"
+    advanced_control = ""
     
     # Get saved state data if exists
     if 'saved_data' in request.session:
