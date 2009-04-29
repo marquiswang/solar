@@ -94,15 +94,13 @@ $(document).ready(function(){
 			<tr>
 				<th> <label for="id_peak_power_output">Peak power output (W):</label> </th>
 				<td>
-					<input type="text" name="peak_power_output" {% if peak_power_invalid %}class="LV_invalid_field"{% endif %} id="id_peak_power_output" />
-					{% if peak_power_invalid %}<span class=" LV_validation_message LV_invalid">x</span>{% endif %}
+					<input type="text" name="peak_power_output" id="id_peak_power_output" />
 				</td>
 			</tr>
 			<tr>
 				<th> <label for="id_installation_price">Installation price:</label> </th>
 				<td>
-					<input type="text" name="installation_price" {% if price_invalid %}class="LV_invalid_field"{% endif %} id="id_installation_price" />
-					{% if price_invalid %}<span class=" LV_validation_message LV_invalid">x</span>{% endif %}
+					<input type="text" name="installation_price" id="id_installation_price" />
 				</td>
 			</tr>
 		</table>
@@ -113,11 +111,11 @@ $(document).ready(function(){
 		<table id="loc_config">
 			<tr> <td colspan="3">We need to know where are you to provide accurate estimates. Please select one of these options for determining your location and fill in the corresponding field.</td> </tr>
 			<tr>
-				<th><input id="loc_choice_cs" type="radio" name="loc_choice" {% if city_state_invalid %}class="LV_invalid_field"{% endif %}value="city_state" {% ifequal loc_choice "city_state" %} checked {% endifequal %}></th>
+				<th><input id="loc_choice_cs" type="radio" name="loc_choice" value="city_state" {% ifequal loc_choice "city_state" %} checked {% endifequal %}></th>
 				<td>City/State: {{ location_form.city}} {{ location_form.state}}</td>
 			</tr>
 			<tr>
-				<th><input id="loc_choice_zip" type="radio" name="loc_choice" {% if zip_code_invalid %}class="LV_invalid_field"{% endif %} value="zip_code" {% ifequal loc_choice "zip_code" %} checked {% endifequal %} ></th>
+				<th><input id="loc_choice_zip" type="radio" name="loc_choice" value="zip_code" {% ifequal loc_choice "zip_code" %} checked {% endifequal %} ></th>
 				<td>ZIP: {{ location_form.zip_code}}</td>
 			</tr>
 			<tr>
@@ -230,7 +228,7 @@ $(document).ready(function(){
 	        </tr>
 	        <tr>
 	            <td> Buyback price (cpwh):</td>
-	            <td><input type="text" name="buyback_price" id="id_buyback_price" /></td>
+	            <td><input type="text" name="buyback_price" id="id_buyback_price" value="0"/></td>
 	            <td></td>
 	            <td>2</td>
 	            <td><input type="text" name="tier_price_2" id="id_tier_price_2" /></td>
@@ -238,7 +236,7 @@ $(document).ready(function(){
 	        </tr>
 	        <tr>
 	            <td>Inflation rate (%):</td>
-	            <td><input type="text" name="inflation_rate" id="id_inflation_rate" /></td>
+	            <td><input type="text" name="inflation_rate" id="id_inflation_rate" value="6"/></td>
 	            <td></td>
 	            <td>3</td>
 	            <td><input type="text" name="tier_price_3" id="id_tier_price_3" /></td>
