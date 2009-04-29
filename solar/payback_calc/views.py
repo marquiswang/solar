@@ -27,6 +27,7 @@ def index(request):
         saved_data = request.session['saved_data']
         costs_choice = request.session['costs_choice']
         loc_choice = request.session['loc_choice']
+        advanced_control = request.session['advanced_control']
         
         initial_system = {
             'peak_power_output' : request.session['peak_power_output'], 
@@ -65,6 +66,22 @@ def index(request):
             'dec_bill' : request.session['dec_bill'],
             'dec_usage': request.session['dec_usage']
         }
+        initial_advanced = {
+            'buyback_price' : request.session['buyback_price'],
+            'inflation_rate': request.session['inflation_rate'],
+            'tier_price_1'  : request.session['tier_price_1'],
+            'tier_limit_1'  : request.session['tier_limit_1'],
+            'tier_price_2'  : request.session['tier_price_2'],
+            'tier_limit_2'  : request.session['tier_limit_2'],
+            'tier_price_3'  : request.session['tier_price_3'],
+            'tier_limit_3'  : request.session['tier_limit_3'],
+            'tier_price_4'  : request.session['tier_price_4'],
+            'tier_limit_4'  : request.session['tier_limit_4'],
+            'tier_price_5'  : request.session['tier_price_5'],
+            'tier_limit_5'  : request.session['tier_limit_5'],
+            'tier_price_6'  : request.session['tier_price_6'],
+            'tier_limit_6'  : request.session['tier_limit_6'],
+        }
     else:
         city, state, zip_code, lat, lng = ip_to_location(request.META.get('REMOTE_ADDR'))
         initial_location = {
@@ -78,7 +95,7 @@ def index(request):
     system_form = SystemForm(initial = initial_system)
     location_form = LocationForm(initial = initial_location)
     costs_form = CostsForm(initial = initial_costs)
-    advanced_form = AdvancedForm()
+    advanced_form = AdvancedForm(initial = initial_advanced)
     return render_to_response('index.html', {
         'system_form': system_form, 
         'location_form': location_form, 
@@ -86,6 +103,7 @@ def index(request):
         'advanced_form': advanced_form,
         'costs_choice': costs_choice,
         'loc_choice' : loc_choice,
+        'advanced_control' : advanced_control,
         'saved_data' : saved_data
         })
 
@@ -166,10 +184,13 @@ def calc_payback(request):
     # ready to take tier data
     tiers = 0
     buyback = 0
-       
-    if ('advanced_control' in request.POST):
-        #if (advanced_form.cleaned_data['tier_price_1'] != None):
-            #tiers = advanced_form.tier_data()
+
+    if 'advanced_control' in request.POST:
+        advanced_control = True
+    else:
+        advanced_control = False
+        
+    if advanced_control:
         if (advanced_form.cleaned_data['buyback_price'] != None):
             buyback = float(advanced_form.cleaned_data['buyback_price'])
     
@@ -181,7 +202,7 @@ def calc_payback(request):
     # can possibly get inflation rate from "advanced options panel"
     inf_rate = 1.06 # 6% inflation yearly -> more expensive utilities, so more money saved
 
-    if ('advanced_control' in request.POST):
+    if advanced_control:
         if (advanced_form.cleaned_data['inflation_rate'] != None):
             inf_rate = 1 + float(advanced_form.cleaned_data['inflation_rate'])*0.01
         
@@ -208,10 +229,12 @@ def calc_payback(request):
         output_data["city"] = city
         output_data["state"] = state
 
+    # If necessary, save in session cookie all data given.
     if ('save' in request.POST):
         request.session["saved_data"] = "checked"
         request.session["costs_choice"] = costs_choice
         request.session["loc_choice"] = loc_choice
+        request.session["advanced_control"] = advanced_control
         
         for data_pt in system_form.cleaned_data:
             request.session[data_pt] = system_form.cleaned_data[data_pt]
@@ -219,6 +242,11 @@ def calc_payback(request):
             request.session[data_pt] = location_form.cleaned_data[data_pt]
         for data_pt in costs_form.cleaned_data:
             request.session[data_pt] = costs_form.cleaned_data[data_pt]
+        for data_pt in advanced_form.cleaned_data:
+            request.session[data_pt] = advanced_form.cleaned_data[data_pt]
+    elif 'saved_data' in request.session:
+        del request.session["saved_data"]
+        
 
     # come up with an explanation for the user for the calculation
     user_explanation = "Your payback period was computed using "
