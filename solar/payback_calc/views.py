@@ -255,7 +255,7 @@ def calc_payback(request):
     if costs_choice == "averages":
         user_explanation+="average price information from your state ("
         user_explanation+=str("%.2f" % (cost_per_month[0][0]/cost_per_month[0][1]))
-        user_explanation+=" $/kwh) "
+        user_explanation+=" $/kWh) "
     else:
         user_explanation+="your power bill information over 12 months"
     if tiers:

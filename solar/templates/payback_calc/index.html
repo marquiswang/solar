@@ -210,13 +210,20 @@ $(document).ready(function(){
 	<h3> Advanced <span> <input type="checkbox" id="advanced_control" name="advanced_control" {% if advanced_control %} checked {% endif %}/> (check to activate)</span></h3>
 	<div id="advanced">
 	    <table>
+			<tr>
+				<td></td>
+				<td></td>
+				<td width="80px"></td>
+				<td></td>
+				<th colspan=2>Tiered pricing</th>
+			</tr>
 	        <tr>
 	            <th></th>
 	            <th></th>
-	            <th width="80px"></th>
 	            <th></th>
-	            <th>Tier price (cpwh)</th>
-	            <th>Tier limit (wh)</th>
+	            <th></th>
+	            <th>Tier price (¢/Wh)</th>
+	            <th>Tier limit (Wh)</th>
 	        </tr>
 	        <tr>
 	            <td> </td>
@@ -227,7 +234,7 @@ $(document).ready(function(){
 	            <td>{{advanced_form.tier_limit_1}}</td>
 	        </tr>
 	        <tr>
-	            <td> Buyback price (cpwh):</td>
+	            <td> Buyback price (¢/Wh):</td>
 	            <td>{{advanced_form.buyback_price}}</td>
 	            <td></td>
 	            <td>2</td>
