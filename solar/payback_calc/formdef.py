@@ -81,7 +81,7 @@ class LocationForm(forms.Form):
 class CostsForm(forms.Form):
     avg_explanation = "Use the average power cost and usage data for your state (as of 2007)."
     spec_explanation = \
-        """If you have your own power bill available, you can get more personallized data by
+        """If you have your own power bill available, you can get more personalized data by
         using your own monthly power usage and cost data for the calculations."""
     jan_bill  = forms.DecimalField(required=False, decimal_places=2)
     jan_usage = forms.IntegerField(required=False)
