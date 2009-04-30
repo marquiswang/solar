@@ -134,11 +134,6 @@ def calc_payback(request):
     if not system_form.is_valid() or not location_form.is_valid() or not costs_form.is_valid() or not advanced_form.is_valid():
         return render_to_response('error.html', {'error_message' : 'Invalid form'})
     
-    one_day = datetime.timedelta(days=1)
-    today = datetime.date.today()
-    expected_lifetime = datetime.timedelta(weeks=2)
-    end_of_life = today + expected_lifetime
-    
     # Determine user's location
     loc_choice = request.POST['loc_choice']
     if loc_choice == "lat_lng":
@@ -162,7 +157,7 @@ def calc_payback(request):
             'error_message': "You didn't select a location choice.",
         })
     
-    # Determine a list of monthly (payed, used)
+    # Determine a list of monthly (payed, used) based on costs_choice
     cost_per_month = []
     costs_choice = request.POST['costs_choice']
     
@@ -177,16 +172,16 @@ def calc_payback(request):
     else:
         return render_to_response('error.html', {'error_message' : \
             'Please select either Location Averages or Power Bill data.'})
-
-    # Calculate one year of energy savings and generate an array of cumulative sa
+    
     peak_power_output = system_form.cleaned_data['peak_power_output']
-    installation_price = system_form.cleaned_data['installation_price'] 
+    installation_price = system_form.cleaned_data['installation_price']
+    
+    # input stage is over, calculations begin
 
-    # ready to take tier data
     tiers = 0
     buyback = 0
     inf_rate = 1.06
-
+    
     # process advanced input variables if they are available
     if 'advanced_control' in request.POST:
         advanced_control = True
@@ -200,7 +195,9 @@ def calc_payback(request):
             inf_rate = 1 + float(advanced_form.cleaned_data['inflation_rate'])*0.01
         if (advanced_form.cleaned_data['tier_price_1'] != None): 
             tiers = advanced_form.tier_data()
-            
+    
+    # calculate the savings in the first month   
+    today = datetime.date.today()     
     savings_per_month = calc_monthly_savings(cost_per_month, lat, lng, today,\
                                               peak_power_output, tiers, buyback, debug = debug)
 
@@ -219,8 +216,6 @@ def calc_payback(request):
     output_data["lng_str"] = str("%.4f" % lng)+"E" if lng > 0 else str("%.4f" % -lng)+"W"
     output_data["savings"] = str("%.2f" % yearly_amount_saved)
     output_data["payback_time"] = str("%.4f" % payback_time)
-
-    #for the graph
     output_data["payoff_entries"] = graph_entries
     
     if loc_choice != "lat_lng":
@@ -245,7 +240,6 @@ def calc_payback(request):
     elif 'saved_data' in request.session:
         del request.session["saved_data"]
         
-
     # come up with an explanation for the user for the calculation
     user_explanation = "Your payback period was computed using "
     if costs_choice == "averages":
@@ -260,7 +254,7 @@ def calc_payback(request):
         user_explanation+=".  "
     if inf_rate != 0:
         user_explanation+="The calculation also assumes that your "
-        user_explanation+="power costs will increase at a annual"
+        user_explanation+="power costs will increase at an annual"
         user_explanation+=" rate of "+str((inf_rate-1)*100)+"%."
     output_data["user_explanation"] = user_explanation
 

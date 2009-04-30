@@ -8,7 +8,7 @@ Dmitriy Yakovlev
 
 1. Code Layout
 
-SPIP consists of a single form, the results of which are processed and then displayed on an output page. Due to the way Django works, the code that supports all of this is distributed among many different files. This reference outlines the code that runs the specific project, not Django in general. 
+SPIP consists of a single form, the results of which are processed and then displayed on an output page. Due to the way Django works, the code that supports all of this is distributed among many different files. This reference outlines the total code that runs the specific project, not Django in general. 
 
 solar2009/
     django.wsgi : configuration file for Django
@@ -34,7 +34,7 @@ solar2009/solar/payback_calc/
     hostip.py : support library for ip-location database
     models.py : Django-generated file that defines database access functions
     srlocat_wrapper.py : wrapper for SRLOCAT.F, for calculating insolation data
-    views.py : functions for generating the input form, response, and error page
+    views.py : functions for generating the input form and response page
     
 solar2009/solar/templates/payback_calc/
     base.html : template-template, defines outline that other templates extend
@@ -69,17 +69,23 @@ zipcode.sql
 (in solar2009/solar/media/js)
 
 jquery*.js
-    jQuery, javascript effects library
+    jQuery, general effects library and framework
     
 jscharts.js
-    jsCharts, javascript chart creation library
+    jsCharts, chart creation library
     
 livevalidation*.js
-    LiveValidation, javascript clientside form validation library
+    LiveValidation, clientside form validation library
     
-
+facebox.js
+    Facebox, lightweight modal box library
     
 3. Roadmap for the Future
 
-
-hmm.
+Some things that we did not have time to get accomplished:
+- a second graph showing the value of electricity that we generate as it changes
+- a database of average panel prices (perhaps per kw generated) so that the installation cost can be estimated if it is not known
+- better organization and integration of advanced form fields with the rest of the form
+- HTML, CSS, JS validation of the codebase
+- print stylesheet that removes graphical markup from results
+- more statistical data and details in the results 

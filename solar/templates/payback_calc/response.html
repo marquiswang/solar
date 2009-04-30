@@ -30,13 +30,14 @@
 
 <h3> Results </h3>
 <div id="results">
-	Energy Savings in One Year: ${{savings}} <br />
-	Payback Time: {{payback_time}} years <br /> <br />
+	Energy Savings in One Year: <b>${{savings}}</b> <br />
+	Payback Time: <b>{{payback_time}}</b> years <br /> <br />
     {{user_explanation}}
+    <br /><br/>
+    <div id="chartcontainer">Your browser does not support jschart.</div>
 </div>
 
 
-<div id="chartcontainer">Your browser does not support jschart.</div>
 <script type="text/javascript">
     var myData = new Array( [0,0] {% for yrs, saved in payoff_entries %},[{{yrs}},{{saved}}] {% endfor %}  );
     var myChart = new JSChart('chartcontainer', 'line');

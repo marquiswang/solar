@@ -19,11 +19,14 @@ def calc_infl_payback_time(installation_price, month_savings, inf_rate):
     """
     amount_paid_back = 0
     payback_years = 0
-
     data_entries = []
     month = 0
-    acced_infl_rate = 1
+    acced_infl_rate = 1 # inf rate increases yearly (every january), but we do calculation monthly,
+                        # so keep this variable to track inflation rate by year
 
+    # increase amount paid back monthly, adjusting for month savings (dependent on incident light)
+    # and increasing the inflation rate every 12 months (which effectively increases the amount saved
+    # without having to multiply every value in month_savings by it every time)
     while float(amount_paid_back) < float(installation_price):
         (_, savings_for_month) = month_savings[month%len(month_savings)]
         amount_paid_back += (float(savings_for_month) * acced_infl_rate)
@@ -31,15 +34,8 @@ def calc_infl_payback_time(installation_price, month_savings, inf_rate):
         payback_years += 1.0/12.0
         data_entries += [[payback_years, amount_paid_back]]
         month += 1
-
-    # not entirely accurate, but good enough for our purposes. Would be better
-    # to round the second part and give months. 
-    payback_time = payback_years #payback_years + abs(float(amount_paid_back) -
-        #float(installation_price))/yearly_amount_saved
-
-    #data_entries[-1] = [payback_time, installation_price]
     
-    return payback_time, data_entries
+    return payback_years, data_entries
 
 
 def calc_monthly_savings(cost_per_month, lat, lng, today, \
@@ -96,6 +92,7 @@ def calc_monthly_savings(cost_per_month, lat, lng, today, \
             monthly_savings += [(month, amount_generated * \
                 (float(cost)/float(usage)))]
         month+=1
+        
     return monthly_savings
 
 def avg_cost(state):
