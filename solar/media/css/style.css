@@ -50,6 +50,11 @@ table *
     border: none;
 }
 
+th.label 
+{
+	text-align: right;
+}
+
 input
 {
     border: 1px solid #bbb;
@@ -68,6 +73,11 @@ input
     font-size: 2.0em;
     margin: 5px auto;
     color: #333;
+}
+
+img.help_button
+{
+	vertical-align: middle;
 }
 
 #finalize

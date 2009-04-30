@@ -92,21 +92,26 @@ $(document).ready(function(){
 	<div>
 		<table id="system_config">
 			<tr valign="middle">
-				<th> 
+				<th class="label"> 
 					{{system_form.peak_power_output.label}} 
-					<img style="vertical-align: middle" src="/media/images/help_button.png" /> : 
+					: 
 				</th>
 				<td>
 					{{system_form.peak_power_output}}
 				</td>
 				<td>
-				
+					<img class="help_button" src="/media/images/help_button.png" /> 
 				</td>
 			</tr>
 			<tr>
-				<th> {{system_form.installation_price.label}}: </th>
+				<th class="label"> 
+					{{system_form.installation_price.label}}: 
+				</th>
 				<td>
 					{{system_form.installation_price}}
+				</td>
+				<td>
+					<img class="help_button" src="/media/images/help_button.png" /> 
 				</td>
 			</tr>
 		</table>
@@ -137,11 +142,11 @@ $(document).ready(function(){
 			<tr> <td colspan="3"> We can either use averages for power costs and usage in your area, or your own power bill data. </td> </tr>
 			<tr>
 				<th><input id="costs_choice_avg" type="radio" name="costs_choice" value="averages" {% ifequal costs_choice "averages" %} checked {% endifequal %}></th>
-				<td>Use location averages for pricing (less accurate)</td>
+				<td>Use location averages for pricing (less accurate) <img class="help_button" src="/media/images/help_button.png" /> </td>
 			</tr>
 			<tr>
 				<th><input id="costs_choice_spec" type="radio" name="costs_choice" value="specified" {% ifequal costs_choice "specified" %} checked {% endifequal %}></th>
-				<td>Input your own power bill data for the last year</td>
+				<td>Input your own power bill data for the last year <img class="help_button" src="/media/images/help_button.png" /></td>
 			</tr>
 		</table>
 		<table id="power_bill">
@@ -221,7 +226,7 @@ $(document).ready(function(){
 				<td></td>
 				<td width="80px"></td>
 				<td></td>
-				<th colspan=2>Tiered pricing</th>
+				<th colspan=2>Tiered pricing <img class="help_button" src="/media/images/help_button.png" /></th>
 			</tr>
 	        <tr>
 	            <th></th>
@@ -240,17 +245,17 @@ $(document).ready(function(){
 	            <td>{{advanced_form.tier_limit_1}}</td>
 	        </tr>
 	        <tr>
-	            <td> Buyback price (¢/Wh):</td>
+	            <th class="label"> {{advanced_form.buyback_price.label}}:</td>
 	            <td>{{advanced_form.buyback_price}}</td>
-	            <td></td>
+	            <td> <img class="help_button" src="/media/images/help_button.png" /> </td>
 	            <td>2</td>
 	            <td>{{advanced_form.tier_price_2}}</td>
 	            <td>{{advanced_form.tier_limit_2}}</td>
 	        </tr>
 	        <tr>
-	            <td>Inflation rate (%):</td>
+	            <th class="label"> {{advanced_form.inflation_rate.label}}:</td>
 	            <td>{{advanced_form.inflation_rate}}</td>
-	            <td></td>
+	            <td> <img class="help_button" src="/media/images/help_button.png" /></td>
 	            <td>3</td>
 	            <td>{{advanced_form.tier_price_3}}</td>
 	            <td>{{advanced_form.tier_limit_3}}</td>
