@@ -29,4 +29,4 @@ def lookup_insolation(lat, lon, year, month):
 
 def avg_pow_gen_day(lat, lng, year, month, panel_max, testing_condition = 1000):
     return (panel_max*\
-        (lookup_insolation(lat, lng, year, month)/testing_conditions)*24)
+        (lookup_insolation(lat, lng, year, month)/testing_condition)*24)
