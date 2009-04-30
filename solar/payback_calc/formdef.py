@@ -4,11 +4,16 @@ from django import forms
 class SystemForm(forms.Form):
     peak_power_output = forms.IntegerField()
     peak_power_output.label = "Peak power output (W)"
-    peak_power_output_explanation = "The peak power output in Watts of the system that you are installing."
+    peak_power_output_explanation = \
+        """A solar panel system is rated for a certain peak power output, which is the expected power 
+        output of the system under optimal conditions."""
     
     installation_price = forms.DecimalField(decimal_places=2)
     installation_price.label = "Installation price ($)"
-    installation_price_explanation = "The price in dollars of the system that you are installing."
+    installation_price_explanation = \
+        """The cost of installing a solar panel system varies depending on the type of solar panel, 
+        the house on which it is being installed, and more. To get an accurate cost estimate, you 
+        should get a quote from an expert."""
 
 class LocationForm(forms.Form):
     latitude = forms.DecimalField(required=False, max_digits=7, decimal_places=4)
@@ -75,7 +80,9 @@ class LocationForm(forms.Form):
 
 class CostsForm(forms.Form):
     avg_explanation = "Use the average power cost and usage data for your state (as of 2007)."
-    spec_explanation = "Specify your own power bill data."
+    spec_explanation = \
+        """If you have your own power bill available, you can get more personallized data by
+        using your own monthly power usage and cost data for the calculations."""
     jan_bill  = forms.DecimalField(required=False, decimal_places=2)
     jan_usage = forms.IntegerField(required=False)
     feb_bill  = forms.DecimalField(required=False, decimal_places=2)
@@ -128,17 +135,21 @@ class AdvancedForm(forms.Form):
     buyback_price = forms.DecimalField(required=False)
     buyback_price.label = "Buyback price (¢/Wh)"
     buyback_price_explanation = \
-        """Some power companies offer to buy back excess power generated from your solar panel 
-        system at a special rate. If your power company offers such a program, input here the 
-        buyback price in cents per Watt hour."""
+        """Some utilities offer to buy back excess power generated from a solar panel 
+        system at a special rate. If your utility offers such a program, this buyback price
+        can be taken into account in the calculations. The buyback price should be given in
+        cents per watt-hour."""
     
     inflation_rate = forms.DecimalField(required=False)
     inflation_rate.label = "Inflation rate (%)"
     inflation_rate_explanation = \
-        """Electricity prices do not actually stay the same year after year. This sets the rate
-        at which we are assuming that electricity rates increase."""
+        """Electricity prices do not actually stay the same year after year. This sets the
+        rate at which the calculations assume that power costs will rise in the future."""
     
-    tier_explanation = "Tiered pricing explanation!"
+    tier_explanation = \
+        """To encourage energy conservation, some utilities offer 'tiered' rate structures, 
+        where your cost per kilowatt-hour (kWh) increases as you use more electricity. Such information
+        should appear on your monthly power bill, and can be taken into account in the calculations."""
     tier_price_label = "Tier price (¢/Wh)"
     tier_limit_label = "Tier limit (Wh)"
     tier_price_1 = forms.DecimalField(required=False)
