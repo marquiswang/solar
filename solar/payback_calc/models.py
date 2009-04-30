@@ -13,8 +13,6 @@ class Insolation(models.Model):
     lon = models.FloatField()
     month = models.IntegerField()
     daily_insolation = models.FloatField()
-    
-
 
 class StateCost(models.Model):
     state = models.CharField(max_length=2, primary_key=True)
@@ -23,9 +21,7 @@ class StateCost(models.Model):
 
     #avt_retail_price is in cents per kilowatt hour
     avg_retail_price = models.FloatField(null=True, blank=True)
-
     avg_monthly_bill = models.FloatField(null=True, blank=True)
-
 
 class Citybycountry(models.Model):
     city = models.IntegerField(primary_key=True)
@@ -2356,4 +2352,3 @@ class Ip4_99(models.Model):
     cron = models.DateTimeField()
     class Meta:
         db_table = u'ip4_99'
-

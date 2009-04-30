@@ -4,9 +4,11 @@ from django import forms
 class SystemForm(forms.Form):
     peak_power_output = forms.IntegerField()
     peak_power_output.label = "Peak power output (W)"
+    peak_power_output_explanation = "Explanation for peak power output!"
     
     installation_price = forms.DecimalField(decimal_places=2)
     installation_price.label = "Installation price ($)"
+    installation_price_explanation = "Explanation for installation price!"
 
 class LocationForm(forms.Form):
     latitude = forms.DecimalField(required=False, max_digits=7, decimal_places=4)
@@ -72,6 +74,8 @@ class LocationForm(forms.Form):
     zip_code.label = "ZIP"
 
 class CostsForm(forms.Form):
+    avg_explanation = "Average price explanation!"
+    spec_explanation = "Specified price explanation!"
     jan_bill  = forms.DecimalField(required=False, decimal_places=2)
     jan_usage = forms.IntegerField(required=False)
     feb_bill  = forms.DecimalField(required=False, decimal_places=2)
@@ -122,8 +126,14 @@ class CostsForm(forms.Form):
         
 class AdvancedForm(forms.Form):
     buyback_price = forms.DecimalField(required=False)
-    inflation_rate = forms.DecimalField(required=False)
+    buyback_price.label = "Buyback price ($)"
+    buyback_price_explanation = "Buyback price explanation!"
     
+    inflation_rate = forms.DecimalField(required=False)
+    inflation_rate.label = "Inflation rate (%)"
+    inflation_rate_explanation = "Inflation rate explanation!"
+    
+    tier_explanation = "Tiered pricing explanation!"
     tier_price_label = "Tier price (¢/Wh)"
     tier_limit_label = "Tier limit (Wh)"
     tier_price_1 = forms.DecimalField(required=False)

@@ -3,6 +3,9 @@
 {% block title %}Solar{% endblock %}
 
 {% block scripts %}
+<script type="text/javascript" src="/media/js/jquery.tooltip.min.js"></script>
+<script src="/media/js/jquery.dimensions.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -80,8 +83,15 @@ $(document).ready(function(){
 	    $("#advanced_control").toggleCheckboxes();
 	    return false;
 	});
+	
+	$('.help_button').tooltip({delay: 0, showURL: false, top: 0, left: 0});
+	
 });    
+
 </script>
+{% endblock %}
+{% block styles %} 
+<link rel="stylesheet" href="/media/css/jquery.tooltip.css" />
 {% endblock %}
 
 {% block content %}
@@ -98,7 +108,7 @@ $(document).ready(function(){
 					{{system_form.peak_power_output}}
 				</td>
 				<td>
-					<img class="help_button" src="/media/images/help_button.png" /> 
+					<img class="help_button" src="/media/images/help_button.png" title="{{system_form.peak_power_output_explanation}}"/> 
 				</td>
 			</tr>
 			<tr>
@@ -109,7 +119,7 @@ $(document).ready(function(){
 					{{system_form.installation_price}}
 				</td>
 				<td>
-					<img class="help_button" src="/media/images/help_button.png" /> 
+					<img class="help_button" src="/media/images/help_button.png" title="{{system_form.installation_price_explanation}}"/> 
 				</td>
 			</tr>
 		</table>
@@ -140,11 +150,11 @@ $(document).ready(function(){
 			<tr> <td colspan="3"> We can either use averages for power costs and usage in your area, or your own power bill data. </td> </tr>
 			<tr>
 				<th><input id="costs_choice_avg" type="radio" name="costs_choice" value="averages" {% ifequal costs_choice "averages" %} checked {% endifequal %}></th>
-				<td>Use location averages for pricing (less accurate) <img class="help_button" src="/media/images/help_button.png" /> </td>
+				<td>Use location averages for pricing (less accurate) <img class="help_button" src="/media/images/help_button.png" title="{{costs_form.avg_explanation}}"/> </td>
 			</tr>
 			<tr>
 				<th><input id="costs_choice_spec" type="radio" name="costs_choice" value="specified" {% ifequal costs_choice "specified" %} checked {% endifequal %}></th>
-				<td>Input your own power bill data for the last year <img class="help_button" src="/media/images/help_button.png" /></td>
+				<td>Input your own power bill data for the last year <img class="help_button" src="/media/images/help_button.png" title="{{costs_form.spec_explanation}}"/></td>
 			</tr>
 		</table>
 		<table id="power_bill">
@@ -224,7 +234,7 @@ $(document).ready(function(){
 				<td></td>
 				<td width="80px"></td>
 				<td></td>
-				<th colspan=2>Tiered pricing <img class="help_button" src="/media/images/help_button.png" /></th>
+				<th colspan=2>Tiered pricing <img class="help_button" src="/media/images/help_button.png" title="{{advanced_form.tier_explanation}}"/></th>
 			</tr>
 	        <tr>
 	            <th></th>
@@ -245,7 +255,7 @@ $(document).ready(function(){
 	        <tr>
 	            <th class="label"> {{advanced_form.buyback_price.label}}:</td>
 	            <td>{{advanced_form.buyback_price}}</td>
-	            <td> <img class="help_button" src="/media/images/help_button.png" /> </td>
+	            <td> <img class="help_button" src="/media/images/help_button.png" title="{{advanced_form.buyback_price_explanation}}"/> </td>
 	            <td>2</td>
 	            <td>{{advanced_form.tier_price_2}}</td>
 	            <td>{{advanced_form.tier_limit_2}}</td>
@@ -253,7 +263,7 @@ $(document).ready(function(){
 	        <tr>
 	            <th class="label"> {{advanced_form.inflation_rate.label}}:</td>
 	            <td>{{advanced_form.inflation_rate}}</td>
-	            <td> <img class="help_button" src="/media/images/help_button.png" /></td>
+	            <td> <img class="help_button" src="/media/images/help_button.png" title="{{advanced_form.inflation_rate_explanation}}"/></td>
 	            <td>3</td>
 	            <td>{{advanced_form.tier_price_3}}</td>
 	            <td>{{advanced_form.tier_limit_3}}</td>
