@@ -64,7 +64,7 @@ SRLOCAT.F
     
 zipcode.sql
     zip code <--> lat/long database <--> city, state information
-    Retrieved from http://scripts.ringsworld.com/calculators/zipcode-1.1.0/sql/zip-code-2.sql.html
+    Retrieved from http://scripts.ringsworld.com/calculators/zipcode-1.1.0
     
 (in solar2009/solar/media/js)
 
