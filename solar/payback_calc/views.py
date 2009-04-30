@@ -3,7 +3,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from formdef import *
 from solar.payback_calc.hostip import *
-from solar.payback_calc.avg_cost import avg_cost
 from solar.payback_calc.do_calc_payback import *
 
 import datetime

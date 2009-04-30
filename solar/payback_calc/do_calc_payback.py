@@ -1,8 +1,12 @@
-from solar.payback_calc.avg_power import avg_pow_gen_day
 from solar.payback_calc.hostip import *
-from solar.payback_calc.avg_cost import avg_cost
 from decimal import Decimal
+
 import datetime
+import srlocat_wrapper
+import urllib
+import string
+import models
+from urllib import unquote, quote
 
 def calc_infl_payback_time(installation_price, month_savings, inf_rate):
     """
@@ -94,3 +98,31 @@ def calc_monthly_savings(cost_per_month, lat, lng, today, \
         month+=1
     return monthly_savings
 
+def avg_cost(state):
+    records = models.StateCost.objects.filter(state = state)
+    return (records[0].avg_monthly_bill, records[0].avg_monthly_consumption)
+
+def lookup_insolation(lat, lon, year, month):
+    """
+        @lat: latitude
+        @long: longitude
+        @year: year (only used if DB does not have data)
+        @month: month
+            outputs daily average sunlight for the given latitude, longitude, 
+            month (kwh/m2/day)
+    """
+    records = models.Insolation.objects.filter(lat=int(lat), \
+        lon=int(lon), month=month)
+    if (records == []):
+        # Fall back to the fortran script, just average the days
+        average_per_days = [i for (i,j) in \
+            srlocat_wrapper.srlocat(lat, lon, year, month)]
+        # Grab average over days and divide by 1000
+        return sum(average_per_days)/float(len(average_per_days))/1000
+    else:
+        # Use the database information
+        return records[0].daily_insolation 
+
+def avg_pow_gen_day(lat, lng, year, month, panel_max, testing_condition = 1000):
+    return (panel_max*\
+        (lookup_insolation(lat, lng, year, month)/testing_condition)*24)
