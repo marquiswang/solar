@@ -120,12 +120,6 @@ def calc_payback(request):
         erroroutput.write(err+"\n")
         erroroutput.close()
 
-    # tier data
-    tiers = 0
-
-    # price the power company is willing to buy excess power at
-    buyback_price = 0
-
      # Check to make sure a form has been submitted...
     if request.method != 'POST':
         return render_to_response('error.html', {'error_message' : 'No form submitted'})
@@ -191,28 +185,26 @@ def calc_payback(request):
     # ready to take tier data
     tiers = 0
     buyback = 0
+    inf_rate = 1.06
 
+    # process advanced input variables if they are available
     if 'advanced_control' in request.POST:
         advanced_control = True
     else:
         advanced_control = False
         
     if advanced_control:
-
         if (advanced_form.cleaned_data['buyback_price'] != None):
             buyback = float(advanced_form.cleaned_data['buyback_price'])
-    
+        if (advanced_form.cleaned_data['inflation_rate'] != None):
+            inf_rate = 1 + float(advanced_form.cleaned_data['inflation_rate'])*0.01
+        if (advanced_form.cleaned_data['tier_price_1'] != None): 
+            tiers = advanced_form.tier_data()
+            
     savings_per_month = calc_monthly_savings(cost_per_month, lat, lng, today,\
                                               peak_power_output, tiers, buyback, debug = debug)
 
     yearly_amount_saved = reduce(lambda x,(_,y):x+float(y), [0]+savings_per_month)
-
-    # can possibly get inflation rate from "advanced options panel"
-    inf_rate = 1.06 # 6% inflation yearly -> more expensive utilities, so more money saved
-
-    if advanced_control:
-        if (advanced_form.cleaned_data['inflation_rate'] != None):
-            inf_rate = 1 + float(advanced_form.cleaned_data['inflation_rate'])*0.01
         
     # calculate payback time, taking inflation into account (set inf_rate to 0 for no inflation)
     payback_time, graph_entries = \
