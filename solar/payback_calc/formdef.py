@@ -1,3 +1,4 @@
+# This Python file uses the following encoding: utf-8
 from django import forms
 
 class SystemForm(forms.Form):
@@ -5,7 +6,7 @@ class SystemForm(forms.Form):
     peak_power_output.label = "Peak power output (W)"
     
     installation_price = forms.DecimalField(decimal_places=2)
-    installation_price.label = "Installation price"
+    installation_price.label = "Installation price ($)"
 
 class LocationForm(forms.Form):
     latitude = forms.DecimalField(required=False, max_digits=7, decimal_places=4)
@@ -123,6 +124,8 @@ class AdvancedForm(forms.Form):
     buyback_price = forms.DecimalField(required=False)
     inflation_rate = forms.DecimalField(required=False)
     
+    tier_price_label = "Tier price (¢/Wh)"
+    tier_limit_label = "Tier limit (Wh)"
     tier_price_1 = forms.DecimalField(required=False)
     tier_limit_1 = forms.IntegerField(required=False)
     tier_price_2  = forms.DecimalField(required=False)

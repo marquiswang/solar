@@ -73,7 +73,6 @@ $(document).ready(function(){
 	// on pageload, set these how we want them
 	if ($("#advanced_control").is(":checked") == false)
 	    $("#advanced").hide();
-	
 
 	// show/hide the advanced pane	
 	$('#advanced_control').click(function() {
@@ -93,8 +92,7 @@ $(document).ready(function(){
 		<table id="system_config">
 			<tr valign="middle">
 				<th class="label"> 
-					{{system_form.peak_power_output.label}} 
-					: 
+					{{system_form.peak_power_output.label}}: 
 				</th>
 				<td>
 					{{system_form.peak_power_output}}
@@ -233,8 +231,8 @@ $(document).ready(function(){
 	            <th></th>
 	            <th></th>
 	            <th></th>
-	            <th>Tier price (¢/Wh)</th>
-	            <th>Tier limit (Wh)</th>
+	            <th>{{advanced_form.tier_price_label}}</th>
+	            <th>{{advanced_form.tier_limit_label}}</th>
 	        </tr>
 	        <tr>
 	            <td> </td>
