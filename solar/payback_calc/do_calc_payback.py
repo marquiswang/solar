@@ -99,17 +99,24 @@ def calc_monthly_savings(cost_per_month, lat, lng, today, \
     return monthly_savings
 
 def avg_cost(state):
+    """
+        @param state: 2-letter string identifying state 
+    
+        outputs average cost of electricity in given state and average montly 
+        consumption of electricity in that state
+    """
     records = models.StateCost.objects.filter(state = state)
     return (records[0].avg_monthly_bill, records[0].avg_monthly_consumption)
 
 def lookup_insolation(lat, lon, year, month):
     """
-        @lat: latitude
-        @long: longitude
-        @year: year (only used if DB does not have data)
-        @month: month
-            outputs daily average sunlight for the given latitude, longitude, 
-            month (kwh/m2/day)
+        @param lat: latitude
+        @param long: longitude
+        @param year: year (only used if DB does not have data)
+        @param month: month
+        
+        outputs daily average sunlight for the given latitude, longitude, 
+        month (kwh/m2/day)
     """
     records = models.Insolation.objects.filter(lat=int(lat), \
         lon=int(lon), month=month)
@@ -124,5 +131,11 @@ def lookup_insolation(lat, lon, year, month):
         return records[0].daily_insolation 
 
 def avg_pow_gen_day(lat, lng, year, month, panel_max, testing_condition = 1000):
+    """
+        @param panel_max:
+        @param testing_conditions:
+        
+        returns the average power generated in a day at specified spacetime coords
+    """
     return (panel_max*\
         (lookup_insolation(lat, lng, year, month)/testing_condition)*24)
