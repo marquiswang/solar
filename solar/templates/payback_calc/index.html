@@ -84,7 +84,14 @@ $(document).ready(function(){
 	    return false;
 	});
 	
-	$('.help_button').tooltip({delay: 0, showURL: false, top: 0, left: 0});
+	$('.help_button').tooltip({
+		track: true,
+		delay: 0, 
+		showURL: false, 
+		top: 0, 
+		left: 0,
+		extraClass: "fixed_width" 
+	});
 	
 });    
 

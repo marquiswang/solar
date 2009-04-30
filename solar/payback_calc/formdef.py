@@ -4,11 +4,11 @@ from django import forms
 class SystemForm(forms.Form):
     peak_power_output = forms.IntegerField()
     peak_power_output.label = "Peak power output (W)"
-    peak_power_output_explanation = "Explanation for peak power output!"
+    peak_power_output_explanation = "The peak power output in Watts of the system that you are installing."
     
     installation_price = forms.DecimalField(decimal_places=2)
     installation_price.label = "Installation price ($)"
-    installation_price_explanation = "Explanation for installation price!"
+    installation_price_explanation = "The price in dollars of the system that you are installing."
 
 class LocationForm(forms.Form):
     latitude = forms.DecimalField(required=False, max_digits=7, decimal_places=4)
@@ -126,12 +126,17 @@ class CostsForm(forms.Form):
         
 class AdvancedForm(forms.Form):
     buyback_price = forms.DecimalField(required=False)
-    buyback_price.label = "Buyback price ($)"
-    buyback_price_explanation = "Buyback price explanation!"
+    buyback_price.label = "Buyback price (¢/Wh)"
+    buyback_price_explanation = \
+        """Some power companies offer to buy back excess power generated from your solar panel 
+        system at a special rate. If your power company offers such a program, input here the 
+        buyback price in cents per Watt hour."""
     
     inflation_rate = forms.DecimalField(required=False)
     inflation_rate.label = "Inflation rate (%)"
-    inflation_rate_explanation = "Inflation rate explanation!"
+    inflation_rate_explanation = \
+        """Electricity prices do not actually stay the same year after year. This sets the rate
+        at which we are assuming that electricity rates increase."""
     
     tier_explanation = "Tiered pricing explanation!"
     tier_price_label = "Tier price (¢/Wh)"

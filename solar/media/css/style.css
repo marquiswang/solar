@@ -105,6 +105,23 @@ h3 span
     color: #666;
 }
 
+/* Tooltip styles */
+
+#tooltip {
+	position: absolute;
+	z-index: 3000;
+	border: 1px solid #111;
+	background: #EEEECC;
+	padding: 5px;
+	opacity: 0.85;
+}
+#tooltip h3, #tooltip div { margin: 0; font-weight: normal; }
+
+#tooltip.fixed_width {
+	width: 250px;
+}
+
+
 /* live validation CSS classes from http://www.livevalidation.com/examples */
 
 .LV_validation_message{
