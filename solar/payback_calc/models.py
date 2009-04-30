@@ -9,7 +9,7 @@ from django.db import models
 
 # Insolation database definition
 class Insolation(models.Model):
-    lat = models.IntegerField(primary_key = True)
+    lat = models.IntegerField()
     lon = models.IntegerField()
     daily_insolation = models.FloatField()
     month = models.IntegerField()
