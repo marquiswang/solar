@@ -115,6 +115,7 @@ def lookup_insolation(lat, lon, year, month):
         outputs daily average sunlight for the given latitude, longitude, 
         month (kwh/m2/day)
     """
+    
     records = models.Insolation.objects.filter(lat=int(lat), \
         lon=int(lon), month=month)
     if (records == []):
