@@ -87,7 +87,6 @@ $(document).ready(function(){
 		delay: 0, 
 		showURL: false, 
 		top: 0, 
-		left: 0,
 		extraClass: "fixed_width" 
 	});
 	
