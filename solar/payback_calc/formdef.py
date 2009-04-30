@@ -74,8 +74,8 @@ class LocationForm(forms.Form):
     zip_code.label = "ZIP"
 
 class CostsForm(forms.Form):
-    avg_explanation = "Average price explanation!"
-    spec_explanation = "Specified price explanation!"
+    avg_explanation = "Use the average power cost and usage data for your state (as of 2007)."
+    spec_explanation = "Specify your own power bill data."
     jan_bill  = forms.DecimalField(required=False, decimal_places=2)
     jan_usage = forms.IntegerField(required=False)
     feb_bill  = forms.DecimalField(required=False, decimal_places=2)
