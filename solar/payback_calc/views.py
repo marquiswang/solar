@@ -2,7 +2,6 @@ from django.template import Context, loader
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from formdef import *
-from solar.payback_calc.srlocat_wrapper import avg_sunlight
 from solar.payback_calc.hostip import *
 from solar.payback_calc.avg_cost import avg_cost
 from solar.payback_calc.do_calc_payback import *
@@ -22,6 +21,7 @@ def index(request):
     saved_data = ""
     loc_choice = "city_state"
     costs_choice = "averages"
+
     advanced_control = ""
     
     # Get saved state data if exists
@@ -121,6 +121,12 @@ def calc_payback(request):
         erroroutput.write(err+"\n")
         erroroutput.close()
 
+    # tier data
+    tiers = 0
+
+    # price the power company is willing to buy excess power at
+    buyback_price = 0
+
      # Check to make sure a form has been submitted...
     if request.method != 'POST':
         return render_to_response('error.html', {'error_message' : 'No form submitted'})
@@ -193,11 +199,12 @@ def calc_payback(request):
         advanced_control = False
         
     if advanced_control:
+
         if (advanced_form.cleaned_data['buyback_price'] != None):
             buyback = float(advanced_form.cleaned_data['buyback_price'])
     
     savings_per_month = calc_monthly_savings(cost_per_month, lat, lng, today,\
-                                              peak_power_output, tiers, buyback)
+                                              peak_power_output, tiers, buyback, debug = debug)
 
     yearly_amount_saved = reduce(lambda x,(_,y):x+y, [0]+savings_per_month)
 

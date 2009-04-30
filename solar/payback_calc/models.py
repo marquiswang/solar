@@ -7,6 +7,15 @@
 
 from django.db import models
 
+# Insolation database definition
+class Insolation(models.Model):
+    lat = models.FloatField(primary_key = True)
+    lon = models.FloatField()
+    month = models.IntegerField()
+    daily_insolation = models.FloatField()
+    
+
+
 class StateCost(models.Model):
     state = models.CharField(max_length=2, primary_key=True)
     num_consumers = models.IntegerField()
