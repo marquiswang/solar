@@ -9,10 +9,10 @@ from django.db import models
 
 # Insolation database definition
 class Insolation(models.Model):
-    lat = models.FloatField(primary_key = True)
-    lon = models.FloatField()
-    month = models.IntegerField()
+    lat = models.IntegerField(primary_key = True)
+    lon = models.IntegerField()
     daily_insolation = models.FloatField()
+    month = models.IntegerField()
 
 class StateCost(models.Model):
     state = models.CharField(max_length=2, primary_key=True)
