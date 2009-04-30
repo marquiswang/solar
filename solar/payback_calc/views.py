@@ -212,8 +212,7 @@ def calc_payback(request):
     payback_time, graph_entries = \
         calc_infl_payback_time(installation_price, savings_per_month, inf_rate)
 
-    # calculations done, format output data -------------------------------------------------------------
-    
+    # calculations done, format output data
     output_data = {}
     output_data.update(system_form.cleaned_data)
     output_data.update(location_form.cleaned_data)
@@ -224,7 +223,6 @@ def calc_payback(request):
     output_data["payback_time"] = str("%.4f" % payback_time)
 
     #for the graph
-
     output_data["payoff_entries"] = graph_entries
     
     if loc_choice != "lat_lng":

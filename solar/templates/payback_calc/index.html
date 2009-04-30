@@ -91,10 +91,16 @@ $(document).ready(function(){
 	<h3>Configure Solar Panels</h3>
 	<div>
 		<table id="system_config">
-			<tr>
-				<th> {{system_form.peak_power_output.label}}: </th>
+			<tr valign="middle">
+				<th> 
+					{{system_form.peak_power_output.label}} 
+					<img style="vertical-align: middle" src="/media/images/help_button.png" /> : 
+				</th>
 				<td>
 					{{system_form.peak_power_output}}
+				</td>
+				<td>
+				
 				</td>
 			</tr>
 			<tr>

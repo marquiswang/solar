@@ -20,7 +20,7 @@ def calc_infl_payback_time(installation_price, month_savings, inf_rate):
 
     while float(amount_paid_back) < float(installation_price):
         (_, savings_for_month) = month_savings[month%len(month_savings)]
-        amount_paid_back += (savings_for_month * acced_infl_rate)
+        amount_paid_back += (float(savings_for_month) * acced_infl_rate)
         if (month % 12 == 0 and month != 0): acced_infl_rate *= inf_rate
         payback_years += 1.0/12.0
         data_entries += [[payback_years, amount_paid_back]]
@@ -57,7 +57,7 @@ def calc_monthly_savings(cost_per_month, lat, lng, today, \
         if (amount_generated > usage):
             if buyback_price:
                 monthly_savings += \
-                    [(month, cost+(amount_generated*buyback_price))]
+                    [(month, float(cost)+(amount_generated*buyback_price))]
             else:   
                 monthly_savings += [(month, cost)]
         elif tiers:
