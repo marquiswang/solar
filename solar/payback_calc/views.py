@@ -205,7 +205,7 @@ def calc_payback(request):
     savings_per_month = calc_monthly_savings(cost_per_month, lat, lng, today,\
                                               peak_power_output, tiers, buyback, debug = debug)
 
-    yearly_amount_saved = reduce(lambda x,(_,y):x+y, [0]+savings_per_month)
+    yearly_amount_saved = reduce(lambda x,(_,y):x+float(y), [0]+savings_per_month)
 
     # can possibly get inflation rate from "advanced options panel"
     inf_rate = 1.06 # 6% inflation yearly -> more expensive utilities, so more money saved
