@@ -1,4 +1,4 @@
-Solar Panel Installation Planner
+Solar Panel Installation Planner (SPIP)                 HMC CS121 Spring 2009
 
 0. Authors
 
@@ -42,7 +42,9 @@ solar2009/solar/templates/payback_calc/
     index.html : template that defines the way the input form view looks
     response.html : template that defines the way the response view looks
     
-2. External Resources (in solar2009/resources)
+2. External Resources 
+
+(in solar2009/resources)
 
 2007avgprices.txt
     Average state electricity prices for 2007.  
@@ -64,5 +66,20 @@ zipcode.sql
     zip code <--> lat/long database <--> city, state information
     Retrieved from http://scripts.ringsworld.com/calculators/zipcode-1.1.0/sql/zip-code-2.sql.html
     
-3. Possible Future Improvements
+(in solar2009/solar/media/js)
 
+jquery*.js
+    jQuery, javascript effects library
+    
+jscharts.js
+    jsCharts, javascript chart creation library
+    
+livevalidation*.js
+    LiveValidation, javascript clientside form validation library
+    
+
+    
+3. Roadmap for the Future
+
+
+hmm.

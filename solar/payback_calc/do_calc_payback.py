@@ -66,6 +66,7 @@ def calc_monthly_savings(cost_per_month, lat, lng, today, \
         if (amount_generated > usage):
             if buyback_price:
                 monthly_savings += \
+                    [(month, float(cost)+(amount_generated*buyback_price))] 
             else:   
                 monthly_savings += [(month, cost)]
         # If we have tiered pricing, we should calculate starting with the
