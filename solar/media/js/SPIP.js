@@ -81,7 +81,6 @@ $(document).ready(function(){
 	    return false;
 	});
 
-	
 	$('.help_button').tooltip({
 		track: true,
 		delay: 0, 
