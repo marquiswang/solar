@@ -134,11 +134,11 @@ class CostsForm(forms.Form):
         
 class AdvancedForm(forms.Form):
     buyback_price = forms.DecimalField(required=False)
-    buyback_price.label = "Buyback price (¢/Wh)"
+    buyback_price.label = "Net-Metering rate ($/Wh)"
     buyback_price_explanation = \
         """Some utilities offer to buy back excess power generated from a solar panel 
-        system at a special rate. If your utility offers such a program, this buyback price
-        can be taken into account in the calculations. The buyback price should be given in
+        system at a special rate. If your utility offers such a program, this buyback price (referred to as a Net-Metering rate)
+        can be taken into account in the calculations. This rate should be given in
         cents per watt-hour."""
     
     inflation_rate = forms.DecimalField(required=False)
@@ -151,7 +151,7 @@ class AdvancedForm(forms.Form):
         """To encourage energy conservation, some utilities offer 'tiered' rate structures, 
         where your cost per kilowatt-hour (kWh) increases as you use more electricity. Such information
         should appear on your monthly power bill, and can be taken into account in the calculations."""
-    tier_price_label = "Tier price (¢/Wh)"
+    tier_price_label = "Tier price ($/Wh)"
     tier_limit_label = "Tier limit (Wh)"
     tier_price_1 = forms.DecimalField(required=False)
     tier_limit_1 = forms.IntegerField(required=False)

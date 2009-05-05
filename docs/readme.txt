@@ -89,3 +89,4 @@ Some things that we did not have time to get accomplished:
 - HTML, CSS, JS validation of the codebase
 - print stylesheet that removes graphical markup from results
 - more statistical data and details in the results 
+- http://www.solar-estimate.org/pdfs/solar_payback.pdf <- read this document and fix our model so that it is somewhat accurate and follows the ideas featured in here

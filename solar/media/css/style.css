@@ -15,7 +15,7 @@ h1{font-size:138.5%;}h2{font-size:123.1%;}h3{font-size:108%;}h1,h2,h3{margin:1em
 
 html
 {
-    background-color: #ddd;
+    background-color: #cfcfcf;
 
 }
 
@@ -47,7 +47,7 @@ footer
     margin: 0px auto;
     background-color: #e4e4e4;
     border: 1px solid #bebebe;
-    border-width: 0 1px;
+    border-width: 0px 1px 1px 1px;
 }
 
 #container div
@@ -56,6 +56,12 @@ footer
     -moz-border-radius: 8px;
     border: 1px solid #bfbfbf;
     padding: 5px;
+}
+
+table
+{
+    padding: 0px;
+    margin: 5px 0px;
 }
 
 table *
