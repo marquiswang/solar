@@ -6,9 +6,18 @@ Samuel Just
 Marquis Wang
 Dmitriy Yakovlev
 
+0.5. Requirements
+
+Django 1.0.1+ 
+Apache 2.0+ with mod_wsgi
+MySQL5 or postgreSQL database
+
 1. Code Layout
 
-SPIP consists of a single form, the results of which are processed and then displayed on an output page. Due to the way Django works, the code that supports all of this is distributed among many different files. This reference outlines the total code that runs the specific project, not Django in general. 
+SPIP consists of a single form, the results of which are processed and then
+ displayed on an output page. Due to the way Django works, the code that
+ supports all of this is distributed among many different files. This reference
+ outlines the total code that runs the specific project, not Django in general. 
 
 solar2009/
     django.wsgi : configuration file for Django
@@ -84,9 +93,15 @@ facebox.js
 
 Some things that we did not have time to get accomplished:
 - a second graph showing the value of electricity that we generate as it changes
-- a database of average panel prices (perhaps per kw generated) so that the installation cost can be estimated if it is not known
-- better organization and integration of advanced form fields with the rest of the form
+- a database of average panel prices (perhaps per kw generated) so that the
+  installation cost can be estimated if it is not known
+- better organization and integration of advanced form fields with the rest of
+  the form
 - HTML, CSS, JS validation of the codebase
 - print stylesheet that removes graphical markup from results
 - more statistical data and details in the results 
-- http://www.solar-estimate.org/pdfs/solar_payback.pdf <- read this document and fix our model so that it is somewhat accurate and follows the ideas featured in here
+- http://www.solar-estimate.org/pdfs/solar_payback.pdf <- read this document and
+  fix our model so that it is somewhat accurate and follows the ideas featured
+  in here
+- third graph that shows the average amount made per month, compared to paid 
+  (showing deficit or excess due to buyback rates)
