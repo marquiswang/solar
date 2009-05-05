@@ -120,10 +120,10 @@ def lookup_insolation(lat, lon, year, month):
         outputs daily average sunlight for the given latitude, longitude, 
         month (kW/m^2/day)
     """
-    
+    # first, try to get the empirical insolation data from the DB
     records = models.Insolation.objects.filter(lat=int(lat), \
         lon=int(lon), month=month)
-    if (records == []):
+    if (records == []): 
         # Fall back to the fortran script, just average the days
         average_per_days = [i for (i,j) in \
             srlocat_wrapper.srlocat(lat, lon, year, month)]

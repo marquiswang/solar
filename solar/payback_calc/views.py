@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from formdef import *
 from solar.payback_calc.hostip import *
-from solar.payback_calc.do_calc_payback import *
+from solar.payback_calc.payback_lib import *
 
 import datetime
 
@@ -191,11 +191,6 @@ def calc_payback(request):
     
     # process advanced input variables if they are available
     if 'advanced_control' in request.POST:
-        advanced_control = True
-    else:
-        advanced_control = False
-        
-    if advanced_control:
         if (advanced_form.cleaned_data['buyback_price'] != None):
             buyback = float(advanced_form.cleaned_data['buyback_price'])
         if (advanced_form.cleaned_data['inflation_rate'] != None):
