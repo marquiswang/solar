@@ -113,7 +113,7 @@ def lookup_insolation(lat, lon, year, month):
         @param month: month
         
         outputs daily average sunlight for the given latitude, longitude, 
-        month (kwh/m2/day)
+        month (kW/m^2/day)
     """
     
     records = models.Insolation.objects.filter(lat=int(lat), \
@@ -126,7 +126,7 @@ def lookup_insolation(lat, lon, year, month):
         return sum(average_per_days)/float(len(average_per_days))/1000
     else:
         # Use the database information
-        return records[0].daily_insolation 
+        return records[0].daily_insolation/24.0
 
 def avg_pow_gen_day(lat, lng, year, month, panel_max, testing_condition = 1000):
     """

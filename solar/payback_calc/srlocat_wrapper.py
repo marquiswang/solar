@@ -15,7 +15,7 @@ def srlocat(lat, long, year, month, day = 0):
         @month: month
 
         outputs a list of tuples of the form 
-            (daily average sunlight, sunlight weighted average of zenith angle)
+            (daily average sunlight (W/m^2), sunlight weighted average of zenith angle)
     """
     if day != 0:
         month_data = srlocat(lat, long, year, month)
