@@ -13,7 +13,8 @@ class SystemForm(forms.Form):
     installation_price_explanation = \
         """The cost of installing a solar panel system varies depending on the type of solar panel, 
         the house on which it is being installed, and more. To get an accurate cost estimate, you 
-        should get a quote from an expert."""
+        should get a quote from an expert. This value should be your total outlay after all government
+        rebates and tax benefits."""
 
 class LocationForm(forms.Form):
     latitude = forms.DecimalField(required=False, max_digits=7, decimal_places=4)
