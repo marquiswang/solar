@@ -20,9 +20,10 @@
 }
 
 #facebox .body {
-  padding: 10px;
-  background: #fff;
+  padding: 25px;
+  background: #fafafa;
   width: 600px;
+  border: 5px solid #ccc;
 }
 
 #facebox .loading {

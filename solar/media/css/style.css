@@ -23,7 +23,7 @@ body
 {
     padding: 0px;
     margin: 0px;
-    background-color: #ddd;
+    background-color: #cfcfcf;
     overflow-y: scroll;
 }
 
@@ -46,7 +46,7 @@ footer
     width: 775px;
     margin: 0px auto;
     background-color: #e4e4e4;
-    border: 1px solid #d3d3d3;
+    border: 1px solid #bebebe;
     border-width: 0 1px;
 }
 
@@ -54,7 +54,7 @@ footer
 {
     background-color: #eee;
     -moz-border-radius: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid #bfbfbf;
     padding: 5px;
 }
 
@@ -123,12 +123,23 @@ h3 span
 {
    float: right;
    font-size: 0.6em; 
-   padding: 3px;
+   
+   
+   border: 1px solid #999;
+   background-color: #bcbcbc;
+}
+
+#about_btn a
+{
+    display: block;
+    padding: 3px;
+    color: #000;
+    font-weight: normal;
 }
 
 #about_btn:hover
 {
-    background-color: #bbb;
+    background-color: #aaa;
     cursor: pointer;
     
 }
