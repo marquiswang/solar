@@ -91,7 +91,11 @@ def index(request):
             'zip_code' : zip_code, 
             'latitude' : lat, 
             'longitude' : lng
-            }
+        }
+        initial_advanced = {
+            'buyback_price' : 0,
+            'inflation_rate' : 6,
+        }
 
     system_form = SystemForm(initial = initial_system)
     location_form = LocationForm(initial = initial_location)
