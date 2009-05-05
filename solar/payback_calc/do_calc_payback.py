@@ -8,7 +8,7 @@ import string
 import models
 from urllib import unquote, quote
 
-def calc_infl_payback_time(installation_price, month_savings, inf_rate):
+def calc_infl_payback_time(installation_price, month_savings, inf_rate, years_projection = 40):
     """
         @param installation_price price of installation
         @param monthly_savings list of tuples representing (month, savings_for_month)
@@ -21,21 +21,26 @@ def calc_infl_payback_time(installation_price, month_savings, inf_rate):
     payback_years = 0
     data_entries = []
     month = 0
+    time_to_paidback = 0
     acced_infl_rate = 1 # inf rate increases yearly (every january), but we do calculation monthly,
                         # so keep this variable to track inflation rate by year
 
     # increase amount paid back monthly, adjusting for month savings (dependent on incident light)
     # and increasing the inflation rate every 12 months (which effectively increases the amount saved
     # without having to multiply every value in month_savings by it every time)
-    while float(amount_paid_back) < float(installation_price):
+    while month < years_projection*12:
         (_, savings_for_month) = month_savings[month%len(month_savings)]
         amount_paid_back += (float(savings_for_month) * acced_infl_rate)
         if (month % 12 == 0 and month != 0): acced_infl_rate *= inf_rate
         payback_years += 1.0/12.0
         data_entries += [[payback_years, amount_paid_back]]
         month += 1
+        
+        # if we've paid off the whole solar panel install, mark the point
+        if float(amount_paid_back) < float(installation_price):
+            time_to_paidback = payback_years
     
-    return payback_years, data_entries
+    return time_to_paidback, data_entries, 
 
 
 def calc_monthly_savings(cost_per_month, lat, lng, today, \

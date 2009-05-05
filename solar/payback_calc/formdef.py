@@ -147,6 +147,12 @@ class AdvancedForm(forms.Form):
         """Electricity prices do not actually stay the same year after year. This sets the
         rate at which the calculations assume that power costs will rise in the future."""
     
+    years_projection = forms.DecimalField(required=False)
+    years_projection.label = "Panel Lifetime (yrs)"
+    years_projection_explanation = \
+        """All solar panels have a lifetime expectancy. This variable sets how far in the 
+        future we project the payback progress."""
+    
     tier_explanation = \
         """To encourage energy conservation, some utilities offer 'tiered' rate structures, 
         where your cost per kilowatt-hour (kWh) increases as you use more electricity. Such information

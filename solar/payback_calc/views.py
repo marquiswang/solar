@@ -70,6 +70,7 @@ def index(request):
         initial_advanced = {
             'buyback_price' : request.session['buyback_price'],
             'inflation_rate': request.session['inflation_rate'],
+            'years_projection': request.session['years_projection'],
             'tier_price_1'  : request.session['tier_price_1'],
             'tier_limit_1'  : request.session['tier_limit_1'],
             'tier_price_2'  : request.session['tier_price_2'],
@@ -95,6 +96,7 @@ def index(request):
         initial_advanced = {
             'buyback_price' : 0,
             'inflation_rate' : 6,
+            'years_projection' : 40,
         }
 
     system_form = SystemForm(initial = initial_system)
@@ -185,6 +187,7 @@ def calc_payback(request):
     tiers = 0
     buyback = 0
     inf_rate = 1.06
+    years_projection = 40
     
     # process advanced input variables if they are available
     if 'advanced_control' in request.POST:
@@ -199,6 +202,8 @@ def calc_payback(request):
             inf_rate = 1 + float(advanced_form.cleaned_data['inflation_rate'])*0.01
         if (advanced_form.cleaned_data['tier_price_1'] != None): 
             tiers = advanced_form.tier_data()
+        if (advanced_form.cleaned_data['years_projection'] != None):
+            years_projection = float(advanced_form.cleaned_data['years_projection'])
     
     # calculate the savings in the first month   
     today = datetime.date.today()     
@@ -209,7 +214,7 @@ def calc_payback(request):
         
     # calculate payback time, taking inflation into account (set inf_rate to 0 for no inflation)
     payback_time, graph_entries = \
-        calc_infl_payback_time(installation_price, savings_per_month, inf_rate)
+        calc_infl_payback_time(installation_price, savings_per_month, inf_rate, years_projection)
 
     # calculations done, format output data
     output_data = {}
