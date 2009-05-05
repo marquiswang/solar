@@ -33,7 +33,7 @@ def calc_infl_payback_time(installation_price, month_savings, inf_rate, years_pr
         amount_paid_back += (float(savings_for_month) * acced_infl_rate)
         if (month % 12 == 0 and month != 0): acced_infl_rate *= inf_rate
         payback_years += 1.0/12.0
-        data_entries += [[payback_years, amount_paid_back]]
+        data_entries += [[payback_years, amount_paid_back - float(installation_price)]]
         month += 1
         
         # if we've paid off the whole solar panel install, mark the point

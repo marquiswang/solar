@@ -211,6 +211,10 @@ def calc_payback(request):
     payback_time, graph_entries = \
         calc_infl_payback_time(installation_price, savings_per_month, inf_rate, years_projection)
 
+    payback_years = int(payback_time)
+    payback_months = int(12*(payback_time - int(payback_time)))
+	
+
     # calculations done, format output data
     output_data = {}
     output_data.update(system_form.cleaned_data)
@@ -219,7 +223,9 @@ def calc_payback(request):
     output_data["lat_str"] = str("%.4f" % lat)+"N" if lat > 0 else str("%.4f" % -lat)+"S"
     output_data["lng_str"] = str("%.4f" % lng)+"E" if lng > 0 else str("%.4f" % -lng)+"W"
     output_data["savings"] = str("%.2f" % yearly_amount_saved)
-    output_data["payback_time"] = str("%.4f" % payback_time)
+    output_data["payback_time"] = payback_time
+    output_data["payback_years"] = payback_years
+    output_data["payback_months"] = payback_months
     output_data["payoff_entries"] = graph_entries
     
     if loc_choice != "lat_lng":

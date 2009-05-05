@@ -31,7 +31,7 @@
 <h3> Results </h3>
 <div id="results">
 	Energy Savings in the First Year: <b>${{savings}}</b> <br />
-	Payback Time: <b>{{payback_time}}</b> years <br /> <br />
+	Payback Time: <b>{{payback_years}}</b> years, <b>{{payback_months}}</b> months <br /> <br />
     {{user_explanation}}
     <br /><br/>
     <div id="chartcontainer">Your browser does not support jschart.</div>
@@ -39,7 +39,7 @@
 
 
 <script type="text/javascript">
-    var myData = new Array( [0,0] {% for yrs, saved in payoff_entries %},[{{yrs}},{{saved}}] {% endfor %}  );
+    var myData = new Array( [0, -{{installation_price}}]{% for yrs, saved in payoff_entries %}, [{{yrs}},{{saved}}] {% endfor %}  );
     var myChart = new JSChart('chartcontainer', 'line');
     myChart.setDataArray(myData);
     myChart.setAxisNameX("Time (years)")
