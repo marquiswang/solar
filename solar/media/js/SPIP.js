@@ -25,11 +25,11 @@ $(document).ready(function(){
 	id_zip_code.add( Validate.Presence, { failureMessage: "x" } );
 	
 	var id_latitude = new LiveValidation('id_latitude',{ validMessage: "✓", wait: 500 });
-	id_latitude.add( Validate.Numericality, { minimum: -360, maximum: 360, failureMessage: "x"});
+	id_latitude.add( Validate.Numericality, { minimum: -90, maximum: 89, failureMessage: "x"});
 	id_latitude.add( Validate.Presence, { failureMessage: "x" } );
 	
 	var id_longitude = new LiveValidation('id_longitude',{ validMessage: "✓", wait: 500 });
-	id_longitude.add( Validate.Numericality, { minimum: -360, maximum: 360, failureMessage: "x"});
+	id_longitude.add( Validate.Numericality, { minimum: -180, maximum: 180, failureMessage: "x"});
 	id_longitude.add( Validate.Presence, { failureMessage: "x" } );
 
     // form tweaks
