@@ -1,0 +1,55 @@
+0. Dependencies
+Django 1.0.1+
+Apache 2.0+ with mod_wsgi
+MySQL5 or postgreSQL database
+
+1. Installation
+We initially set this up using an ubuntu server, so that would probably be the
+easiest way to install the dependencies.  I'm going to assume that you've
+already taken care of that.
+
+1.1. Server setup
+To get apache to serve the application, you need to use mod_wsgi to point to
+the application directory.
+
+Reference: http://code.google.com/p/modwsgi/wiki/IntegrationWithDjango
+
+An example apache configuration would be:
+
+ Alias /media/ /usr/local/django/mysite/media/
+
+ <Directory /usr/local/django/mysite/media>
+ Order deny,allow
+ Allow from all
+ </Directory>
+
+ WSGIScriptAlias / /usr/local/django/mysite/apache/django.wsgi
+
+ <Directory /usr/local/django/mysite/apache>
+ Order deny,allow
+ Allow from all
+ </Directory>
+
+This should be added to the apache.conf or to a similar location.
+
+A mod_wsgi file named django.wsgi should be added to the root directory of the
+application.
+
+It should probably look like:
+ import os, sys
+ sys.path.append('/usr/local/django')
+ os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
+
+ import django.core.handlers.wsgi
+
+ application = django.core.handlers.wsgi.WSGIHandler()
+
+1.2. Database setup
+In the solar/settings.py file, you want to point it at a database that is set
+up for it.  Then, run
+% python solar/manage.py syncdb
+to create the databases.
+
+Then, load the databases with the database dump solar_db.sql .
+
+
